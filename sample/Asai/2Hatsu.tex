@@ -1,0 +1,77 @@
+
+\indvdldef{忠高}{忠高}[側室の子]
+\indvdldef[\adopted]{初姫}{\fbox{初姫}}[江と秀忠の娘,忠高の正室]
+\indvdldef[\adopted]{古奈}{\fbox{古奈}}[高次の妹の娘]
+\sblngdef{初の子}{初姫,古奈}
+%\fbox{\usebox{\初の子}}
+\let\初の子nameCX=\初姫nameCX
+\mrrgdef{初姫夫婦}{忠高}{初の子}{}
+%\fbox{\usebox{\初姫夫婦}}
+
+\ftundef{初}
+\indvdldef{初}{\fbox{初}}[\femaleline,生\ymd{1570} 没\ymd{1633}]
+\indvdldef{高次}{高次}[\maleline]
+\mrrgdef{初夫婦}{}{高次}{ivalii,ivali,ival,初}[1zw]
+
+\ftundef{初親子}
+\let\初姫夫婦nameCY=\初姫夫婦忠高nameCY
+\gensdef{初親子}{初夫婦}{%
+  {高次}{初姫夫婦}%
+}
+%\fbox{\usebox{\初親子}}
+
+\indvdldef{マリア}{\fbox{マリア}}
+\ftundef{長政}
+\indvdldef{長政}{浅井長政}%[\maleline]
+\ftsblngboxcfg{\baselineskip}
+\ivaldef{ivalm}{.1zh}
+\sblngdef{長政姉弟}{マリア,ivalm,長政}
+\ftsblngboxcfg{.75\baselineskip}
+%\fbox{\usebox{\長政姉弟}}
+\let\長政姉弟nameCX=\マリアnameCX
+
+\indvdldef[\blank]{高吉}{京極高吉}[\haschild]
+\mrrgdef{マリア夫婦}{高吉}{長政姉弟}{}
+\let\マリア夫婦nameCY=\マリア夫婦高吉mrrgCY
+%\fbox{\usebox{\マリア夫婦}}
+
+\gensdef{マリア親子}{マリア夫婦}{%
+  {高吉}{初親子}%
+}
+\fbox{\usebox{\マリア親子}}
+\bigskip
+
+\begin{multicols}{2}
+\begin{itemize}
+\itemsep=\bigskipamount
+
+\item
+次女 初は父の姉の子、要するに従兄に嫁いだ。子はなく、養女を二人とった。
+一人は江の娘、というか将軍の娘 初姫。その初姫と夫が側室に産ませた子を
+結婚させる。凄いな、これ。実子ではないとは言え、娘と息子（相当）の結婚。
+これは嫁いだ家のことを最優先に考えたということだろうか。
+
+でも初姫の結婚は幸せではなかったらしく、父親である二代 秀忠、弟である三
+代 家光は結婚相手に対し怒ったという話がある。
+
+\item
+豊臣と徳川が争った時に初は和議に尽力したとある。自分の姉と妹それぞれの
+嫁ぎ先だ。存在感が大きく感じられないのは性格が穏やかなのだろうか。と言
+うか、姉と妹がきつすぎるのかもしれない。既に夫と死別していたので自分で
+頑張ったらしい。
+
+\item
+長政の姉のマリアとは洗礼名だが、本名が分からないらしい。敬虔かつ質素な
+生活だったとのことだが、戦国の世をどう見ていたのだろうか。
+
+\end{itemize}
+\bigskip
+
+{\spaceskip=1ex
+人物の話からは逸れるが、この図をlatexするのは難しかった。三世代の婚姻
+関係と親子関係が密接だ。familytree pkg本来の機能では対応仕切れず、所々
+座標を写すという細工を入れている。
+
+familytree pkgの今後の課題としたい。
+}
+\end{multicols}

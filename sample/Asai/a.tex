@@ -1,0 +1,52 @@
+\documentclass[
+  tate, landscape,
+  draft,
+  jlreq_notes,open_bracket_pos=nibu_tentsuki
+]{jlreq}
+\AtBeginDvi{\special{papersize=\the\paperwidth,\the\paperheight}}
+
+\makeatletter
+\let\iftate=\if@tate
+\makeatother
+
+\input{../../fonts}
+%\usepackage{otf}
+
+\usepackage{multicol}
+\columnseprule=\arrayrulewidth
+\usepackage{familytree}
+
+\ftoptboxcfg{}{}{}{1}
+\ftsblngboxcfg{.75\baselineskip}
+\ivaldef{ivalv}{5zh}
+\ivaldef{ivalx}{10zh}
+
+\newsavebox{\abox}
+\newcommand{\jslash}{~\tatechuyoko{{\large\slash}} \allowbreak}
+
+\begin{document}
+\pagestyle{plain}
+
+familytree sample
+
+\textgt{\large ¿ı∞Êª∞ª–ÀÂ\FamilyTree}
+\bigskip
+
+\newcommand{\f}[1]{%
+  \iftate%
+  \tatechuyoko{\texttt{(#1)}}%
+  \else%
+  \texttt{(#1)}%
+  \fi%
+  \medskip%
+  %
+  \input{#1}%
+  \clearpage%
+}
+
+\f{0Ichi}
+\f{0sis}
+\f{1Chacha}
+\f{2Hatsu}
+\f{3Gou}
+\end{document}

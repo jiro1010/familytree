@@ -32,9 +32,11 @@ figPrint = $(addprefix ${Dir}/, $(addsuffix print.tex, \
 ########################################
 
 all: ${Tgt}
+	${MAKE} -C sample $@
 
 clean:
 	${RM} *~ ${Tgt} ${figPdf} ${figTYPdf} ${figPrint}
+	${MAKE} -C sample $@
 
 install: ${Dir}/${Name}.sty
 	install -m 444 -p ${Dir}/${Name}.sty ${InstallDir}

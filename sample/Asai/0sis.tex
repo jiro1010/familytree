@@ -1,0 +1,77 @@
+
+\indvdldef{一成}{一成}[江の従兄,江の最初の夫？]
+%与九郎 後妻には信長の娘・お振
+\indvdldef{秀休}{秀休（中川）}
+\sblngdef{佐治信方の子}{一成,秀休}
+\indvdldef{元勝}{元勝（細川）}% 細川昭元の子
+
+\ftundef{お犬,お犬夫婦}
+\indvdldef{お犬}{\fbox{於犬}}[一時期 茶々の後見]
+\mrrgdef{お犬夫婦}{ivalii,信方,ivalii,信良}{お犬}{}
+\gensdef{お犬親子}{お犬夫婦}{%
+  {信方}{佐治信方の子},%
+  {信良}{元勝}%
+}
+
+\indvdldef{茶茶}{\fbox{茶々}}[秀吉の側室,\femaleline]
+\indvdldef{初}{\fbox{初}}[従兄 京極高次の正室,\femaleline]
+\indvdldef{江}{\fbox{江}}[小督 おごう,豊臣秀勝の正室,徳川秀忠の継
+  室,\femaleline]
+\sblngdef{三姉妹}{茶茶,初,江}
+
+\ftundef{お市,長政,お市夫婦}
+\indvdldef{お市}{\fbox{於市}}
+\indvdldef[\blank]{長政}{浅井長政}[\haschild]
+\mrrgdef{お市夫婦}{ivali,長政}{お市}{}[\dimexpr\wd\お犬 - \wd\長政]
+\gensdef{お市親子}{お市夫婦}{%
+    {長政}{三姉妹}%
+}
+
+\sblngdef{お市姉妹}{お犬親子,ival,お市親子}
+\fbox{\usebox{\お市姉妹}}
+\bigskip
+
+\begin{multicols}{2}
+\begin{itemize}
+\itemsep=\bigskipamount
+\item
+この時代、結婚相手はいとこ、というのが多い。
+次女 初、三女 江の相手がそう。
+
+\item
+お犬の方は長女 茶々の面倒をみたり、先夫との息子と三女 江を結んだりと大活
+躍か。
+
+茶々の後見となっていた期間はどんなもんだろう？ 佐治為興が戦死
+% 1574
+したため
+実家に戻り、再婚
+% 1577
+するまでの間なのだろうか？ だとすると茶々
+% 1569生
+が五歳から八歳までか。
+お市の方は存命だし、茶々もまだ可愛い頃だろうから、それほど手を焼くことも無
+かったのではなかろうか。
+
+\item
+お犬の方の弔いの際には先夫との息子が立ち回ったそうで、親子仲は良かった
+らしい。
+\end{itemize}
+\bigskip
+
+人物の話からは逸れるが、
+{\texttt{\textbackslash mrrgdef}}
+{interface}
+の欠点が分かった。
+間隔を空けるには
+{\texttt{ivalbox}}
+を挿入するが、
+{box}
+名の前に入れなければならない。
+
+これは良くない。早々に直したいが、さてどうやろう。
+
+{familytree}
+{pkg}
+の今後の課題としたい。
+\end{multicols}

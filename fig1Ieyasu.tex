@@ -1,0 +1,24 @@
+\indvdldef[\fttop]{²È¹¯}[½éÂå]{²È¹¯}
+\fbox{\usebox{\²È¹¯}}
+%
+\newcommand{\boxsz}[1]{%
+  \texttt{\textbackslash#1} & \nameuse{#1}\\%
+}
+\newcommand{\tblA}{%
+  {%
+    \footnotesize%
+    \noautoxspacing%
+    \begin{tabular}{l|l}%
+      \boxsz{²È¹¯nameX}%
+      \boxsz{²È¹¯nameCX}%
+      \boxsz{²È¹¯nameCY}%
+    \end{tabular}%
+  }%
+}
+\ifmaketate
+  \tatechuyoko{\tblA}
+\else
+  \par
+  \bigskip
+  \tblA
+\fi

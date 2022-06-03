@@ -1,0 +1,41 @@
+\ifmaketate
+\documentclass[
+  tate,
+  %landscape,
+  12pt,
+  jlreq_notes,open_bracket_pos=nibu_tentsuki
+]{jlreq}
+\else
+\documentclass[
+  %tate,
+  %landscape,
+  12pt,
+  jlreq_notes,open_bracket_pos=nibu_tentsuki
+]{jlreq}
+\fi
+
+\input{fonts}
+%\usepackage{plext}
+\usepackage{familytree}
+\makeatletter
+\let\nameuse=\@nameuse
+\let\stript=\strip@pt
+\makeatother
+\newlength{\len}
+\newsavebox{\abox}
+\newcommand{\nbox}[2][]{%
+  \savebox{\abox}{#2}%
+  \len=\ht\abox%
+  \advance\len \dp\abox%
+  \begin{picture}(\stript\wd\abox,\stript\ht\abox)%
+    \put(0,-\stript\dp\abox){\framebox(\stript\wd\abox,\stript\len){}}%
+    \put(0,0){\usebox{\abox}}%
+    #1%
+  \end{picture}%
+  H \the\ht\abox, D \the\dp\abox%
+}
+%\renewcommand{\baselinestretch}{.5}
+\begin{document}
+\pagestyle{empty}
+\input{\figsrc}
+\end{document}

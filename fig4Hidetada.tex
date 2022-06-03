@@ -1,0 +1,31 @@
+\indvdldef{½¨Ãé}[ÆóÂå]{½¨Ãé}
+\indvdldef[\blank]{¾®É±}{¾®É±¡Ê±©¼Æ¡Ë}[¤ª¤Ò¤á ºÇ½é¤Î±ïÁÈ »àÊÌ]
+\indvdldef[\blank]{¹¾}{¹¾¡ÊÀõ°æ¡Ë}[¾®ÆÄ ±÷¹¾Í¿,¤ª¤´¤¦ ¤ª¤¨¤è,\haschild]
+\indvdldef[\blank]{±÷ÀÅ}{±÷ÀÅ¡Ê¿ÀÈø¡Ë}[¤·¤º¤« ¤ª¤·¤º Ë×¸åÂ¦¼¼,\private,%
+	\haschild]
+\mrrgdef{½¨ÃéÉ×ÉØ}{}{½¨Ãé}{¾®É±,¹¾,±÷ÀÅ}
+\fbox{\usebox{\½¨ÃéÉ×ÉØ}}
+%
+\newcommand{\boxsz}[1]{%
+  \texttt{\textbackslash#1} & \nameuse{#1}\\%
+}
+\newcommand{\tblA}{%
+  {%
+    \footnotesize%
+    \noautoxspacing%
+    \begin{tabular}{l|l}%
+      \boxsz{½¨ÃéÉ×ÉØnameCY}%
+      \boxsz{½¨ÃéÉ×ÉØ½¨ÃénameCY}%
+      \boxsz{½¨ÃéÉ×ÉØ¾®É±mrrgCY}%
+      \boxsz{½¨ÃéÉ×ÉØ¹¾mrrgCY}%
+      \boxsz{½¨ÃéÉ×ÉØ±÷ÀÅmrrgCY}%
+    \end{tabular}%
+  }%
+}
+\ifmaketate
+  \raisebox{6.5zh}{\tatechuyoko{\tblA}}
+\else
+  \par
+  \bigskip
+  \tblA
+\fi

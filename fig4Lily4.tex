@@ -1,0 +1,14 @@
+\indvdldef{Petunia}{Petunia}
+\indvdldef[\blank]{Vernon}{Vernon Dursley}[\haschild]
+\mrrgdef{Dursleys}{Vernon}{Petunia}{}
+%\fbox{\usebox{\Dursleys}}
+
+\newsavebox{\boxA}
+\savebox{\boxA}{\hbox{Petunia}}
+\indvdldef{Lily}{\hbox to \wd\boxA{Lily}}
+\indvdldef[\blank]{James}{James Potter}[\haschild]
+\mrrgdef{Potters}{}{Lily}{James}[\dimexpr\wd\Vernon - \wd\James\relax]
+%\fbox{\usebox{\Potters}}
+
+\sblngdef{sis}{Dursleys,ivali,Potters}
+\fbox{\usebox{\sis}}

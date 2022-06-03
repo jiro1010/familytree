@@ -11,13 +11,14 @@ Lo = '\def\Gcid{'${Gcid}'}'
 
 Name = familytree
 Tgt = ${Dir}/${Name}.sty ${Dir}/${Name}-ja.pdf
-Dtx = $(addsuffix .dtx, ${Name} lib individual sibling gens)
+Dtx = $(addsuffix .dtx, ${Name} lib individual sibling gens marriage)
 
 Fig = fig1base fig1Ieyasu fig1Hidetada
 Fig += fig2base fig2Hidetada fig2ival fig2cfg
 Fig += fig3Hidetada fig3Ietsuna fig3Iemitsu
-figLily = $(addprefix fig3Lily, 1 2 3 4)
+figLily = $(addprefix fig3Lily, 1 2 3 4) $(addprefix fig4Lily, 1 2 3 4)
 Fig += ${figLily}
+Fig += fig4Hidetada fig4Ogou
 
 figTY = $(addsuffix T, ${Fig}) $(addsuffix Y, ${Fig})
 figTYPdf = $(addprefix ${Dir}/, $(addsuffix .pdf, ${figTY}))
@@ -80,7 +81,7 @@ ${figPdf}: ${Dir}/%.pdf: ${Dir}/%T.pdf ${Dir}/%Y.pdf fig.tex
 ########################################
 
 untilComment = $(addprefix ${Dir}/, $(addsuffix print.tex, \
-	fig1Ieyasu fig2Hidetada fig3Hidetada))
+	fig1Ieyasu fig2Hidetada fig3Hidetada fig4Hidetada))
 ${untilComment}: ${Dir}/%print.tex: %.tex
 	sed -e '/^%$$/,$$d' $< | grep -v '^%' > $@
 
@@ -101,6 +102,25 @@ ${Dir}/fig3Lily3print.tex: ${Dir}/%print.tex: %.tex
 ${Dir}/fig3Lily4print.tex: ${Dir}/%print.tex: %.tex
 	echo ' ... ' > $@
 	head -11 $< | tail -5 | grep -v '^%' >> $@
+	echo ' ... ' >> $@
+
+${Dir}/fig4Lily2print.tex: ${Dir}/%print.tex: %.tex
+	echo ' ... ' > $@
+	egrep -w '(boxA|wd)' $< >> $@
+	echo ' ... ' >> $@
+	grep -w 'ivali*' $< >> $@
+	echo ' ... ' >> $@
+
+${Dir}/fig4Lily3print.tex: ${Dir}/%print.tex: %.tex
+	echo ' ... ' > $@
+	fgrep -w 'dimexpr' $< >> $@
+	echo ' ... ' >> $@
+	fgrep -w 'sblngdef' $< >> $@
+	echo ' ... ' >> $@
+
+${Dir}/fig4Lily4print.tex: ${Dir}/%print.tex: %.tex
+	echo ' ... ' > $@
+	fgrep -w 'sblngdef' $< >> $@
 	echo ' ... ' >> $@
 
 ${Dir}/%Tprint.tex ${Dir}/%Yprint.tex: ${Dir}/%print.tex

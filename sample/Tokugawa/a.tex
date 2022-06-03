@@ -1,0 +1,299 @@
+\documentclass[
+  paper=a0,
+  tate,
+  %landscape,
+  %12pt,
+  jlreq_notes,open_bracket_pos=nibu_tentsuki
+]{jlreq}
+\AtBeginDvi{\special{papersize=\the\paperwidth,\the\paperheight}}
+
+\input{../../fonts}
+\usepackage[noreplace,expert]{otf}
+\usepackage{familytree}
+
+\newcommand{\Empty}{}
+\newcommand{\nm}{}
+\NewDocumentCommand{\idef}{O{\ftbiological}momoO{0pt}}{
+  % [cmark] xname [title] name [opt] [xlen]
+  \def\nm{#4}%
+  \if#2\Empty\else%
+  \def\nm{#4（#2）}%
+  \fi%
+  %
+  \indvdldef[#1]{#4}[#3]{\nm}[#5][#6]%
+}
+\let\sdef=\sblngdef
+%\nameboxcfg{}{}{}{4zw}
+
+\ivaldef{ivalv}{5zh}
+\ivaldef{ivalx}{10zh}
+
+\begin{document}
+\pagestyle{empty}
+
+familytree sample
+
+\textgt{\large 徳川将軍\Patrilineal 図}
+
+\input{15}
+% \fbox{\usebox{\家茂の子}}
+
+\input{14}
+\pcdef{家茂慶喜}{家茂}{家茂の子}
+% \fbox{\usebox{\家茂慶喜}}
+
+\input{13}
+\gensdef{家定家茂}{家慶の子}{%
+  {家定}{家茂慶喜}%
+}
+% \fbox{\usebox{\家定家茂}}
+
+\input{12}
+\gensdef{家慶家定}{家斉の子}{%
+  {家慶}{家定家茂},%
+  {斉順}{慶福}%
+}
+% \fbox{\usebox{\家慶家定}}
+
+\input{11}
+%\ftdbgtrue
+%\message{\the\ht\家慶家定}
+\gensdef{家斉家慶}{家治の子}{%
+  {家斉}{家慶家定}%
+}
+%\message{\the\ht\家斉家慶}
+% \fbox{\usebox{\家斉家慶}}
+
+\input{10}
+\gensdef{家治家斉}{家重の子}{%
+  {家治}{家斉家慶}%
+}
+\gensdef{治済親子}{宗尹の子}{%
+  {治済}{治済の子}%
+}
+% \fbox{%
+% \vbox{\hbox{\usebox{\家治家斉}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\治済親子}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\斉昭の子}}%
+% }}
+
+\input{9}
+\gensdef{家重家治}{吉宗の子}{%
+  {家重}{家治家斉},%
+  {宗尹}{治済親子}%
+}
+%\sdef{頼学の子}{頼英,松平頼久}
+\gensdef{斉昭親子}{治紀の子}{%
+  {斉昭}{斉昭の子}%
+}
+% \fbox{%
+% \vbox{\hbox{\usebox{\家重家治}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\斉昭親子}}%
+% }}
+
+\input{8}
+\pcdef{吉宗家重}{吉宗}{家重家治}
+\pcdef{頼学親子}{頼学}{頼学の子}
+%\pcdef{頼啓親子}{頼啓}{頼学}
+\gensdef{治紀斉昭}{治保の子}{%
+  {治紀}{斉昭親子}%
+}
+% \fbox{%
+% \vbox{\hbox{\usebox{\吉宗家重}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\頼学親子}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\治紀斉昭}}%
+% }}
+
+\input{7}
+\pcdef{家継吉宗}{家継}{吉宗家重}
+\gensdef{頼啓頼学}{頼謙の子}{%
+  {頼啓}{頼学親子}%
+}
+\gensdef{治保治紀}{宗翰の子}{%
+  {治保}{治紀斉昭}%
+}
+% \fbox{%
+% \vbox{\hbox{\usebox{\家継吉宗}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\頼啓頼学}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\治保治紀}}%
+% }}
+
+\input{6}
+\pcdef{家宣家継}{家宣}{家継吉宗}
+\gensdef{頼謙頼啓}{宗将の子}{%
+  {頼謙}{頼啓頼学}%
+}
+%\sdef{頼豊の子}{軽麻呂,頼治}
+\gensdef{宗翰治保}{宗堯の子}{%
+  {宗翰}{治保治紀}%
+}
+% \fbox{\usebox{\宗将の子}}\par
+% \fbox{\usebox{\頼豊の子}}\par
+% \fbox{\usebox{\宗堯の子}}\par
+% \fbox{%
+% \vbox{\hbox{\usebox{\家宣家継}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\頼謙頼啓}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\宗翰治保}}%
+% }}
+
+\input{5}
+\pcdef{綱吉家宣}{綱吉}{家宣家継}
+\gensdef{宗将頼謙}{宗直の子}{%
+  {宗将}{頼謙頼啓}%
+}
+%\tokuone{頼章}{式部}
+\gensdef{頼豊親子}{頼常の子}{%
+  {頼豊}{頼豊の子}%
+}
+\gensdef{宗堯宗翰}{綱条の子}{%
+  {宗堯}{宗翰治保}%
+}
+% \fbox{\usebox{\綱吉}}\par
+% \fbox{\usebox{\宗直の子}}\par
+% \fbox{\usebox{\頼常の子}}\par
+% \fbox{\usebox{\綱条の子}}\par
+% \fbox{%
+% \vbox{\hbox{\usebox{\綱吉家宣}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\宗将頼謙}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\頼豊親子}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\宗堯宗翰}}%
+% }}
+
+\input{4}
+\gensdef{家綱綱吉}{家光の子}{%
+  {家綱}{綱吉家宣},%
+  {綱重}{綱重の子}%
+}
+%\sdef{光貞の子}{綱教,頼職,頼久}
+\gensdef{宗直宗将}{頼純の子}{%
+  {宗直}{宗将頼謙}%
+}
+\gensdef{頼常頼豊}{頼重の子}{%
+  {頼常}{頼豊親子},%
+  {頼章}{式部}%
+}
+%\let\頼章頼豊=\頼常頼豊
+\gensdef{綱条宗堯}{光圀の子}{%
+  {綱条}{宗堯宗翰}%
+}
+% \fbox{\usebox{\家光の子}}\par
+% \fbox{\usebox{\光貞の子}}\par
+% \fbox{\usebox{\頼純の子}}\par
+% \fbox{\usebox{\頼重の子}}\par
+% \fbox{\usebox{\光圀の子}}\par
+% \fbox{%
+% \vbox{\hbox{\usebox{\家綱綱吉}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\宗直宗将}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\頼常頼豊}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\綱条宗堯}}%
+% }}
+
+\input{3}
+\gensdef{家光家綱}{秀忠の子}{%
+  {家光}{家綱綱吉}%
+}
+\gensdef{光貞頼久}{頼宣の子}{%
+  {光貞}{光貞の子},%
+  {頼純}{宗直宗将}%
+}
+%\let\頼純宗直=\光貞頼久
+\gensdef{頼重頼常}{頼房の子}{%
+  {頼重}{頼常頼豊},%
+  {光圀}{綱条宗堯}%
+}
+\let\光圀綱条=\頼重頼常
+% \fbox{%
+% \vbox{\hbox{\usebox{\家光家綱}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\光貞頼久}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\頼重頼常}}%
+% }}
+
+\input{2}
+\gensdef{秀忠家光}{家康の子}{%
+  {秀忠}{家光家綱},%
+  {頼宣}{光貞頼久},%
+  {頼房}{頼重頼常}%
+}
+% \fbox{\usebox{\秀忠家光}}
+
+\input{1}
+\pcdef{家康秀忠}{家康}{秀忠家光}
+%\fbox{%
+\usebox{\家康秀忠}%
+%}
+
+% W \the\wd\家康秀忠, H \the\ht\家康秀忠, D \the\dp\家康秀忠
+
+\clearpage
+\begin{minipage}{16zw}
+\iffalse
+天皇家は皇位継承の際に養子をとることはない。条件は皇族男子ということし
+かないのだろうか。
+一方、将軍家は必ず養子にして将軍職を継がせている。この
+違いは何だろうかと自分なりに考えてみた。
+
+将軍家の場合は、「職」を継いでいるという点が意味を持つのだろうか。
+財産の相続だけならば養子でなくとも良いと思うが、昔は考え方が違うのだろ
+うか。
+うーん、どうだろう。
+
+職イコール官位は朝廷から賜わったもので、これを継承できるのは嫡男に限る
+とかいうことか。んで、職イコール「家」か。
+古くは「大蔵」という職があり、その職を同じ家で継承していたそうな。その
+名も大蔵さん。職の大蔵は後の大蔵省につながる。仕事の中身が蔵の管理かお
+金の管理かは知らんけど。
+
+継承できなければ返上（奉還）するしかないということか。
+だから随分遠い親戚でも優秀と見込まれれば将軍職にふさわしいとの考えから、
+たとえ折り合いが悪い者でも、養子の方が年上でも、
+養子縁組して将軍職を継がせるということなのか。
+うーん、違うかな。
+
+でも、優秀かどうかという判断が入るのは養子の場合だけで、実子がある場合
+は幼少とか病弱とか、あまり良くない状況でも継いでいる。実子というだけで
+相当強いようだ。
+開国前後の幕府の無能ぶりはよく言われるが、全く考えていないわけではない。
+将軍職の継承はおおごとだからかもしれないけど、意外と考えているじゃない
+かという印象だ。
+
+尾張、水戸、紀伊は御三家といって、家康の子が徳川分家になった。当初か
+ら宗家の跡継ぎがピンチになった場合のバックアップと考えられていたようだ。
+権力闘争を避ける目的もあっただろうが。
+このバックアップは有効に機能した。尾張、水戸は後に宗家へ養子を送り出した。
+尾張から将軍は出ていないが、意義が無いわけではない。
+
+現代の皇室はどうだろうか。
+明治政府が典侍などの女官職を大きく変更し、大正時代にも当時の摂政が典侍
+をいよいよ廃止する方向へ進めた。
+大正天皇以降、天皇は皇后としか子をもうけていない。側室制度もない。
+現在の皇室典範では正室の子しか皇族ではないとしているらしい。
+うーん、バックアップは要らんのだろうか？
+\bigskip
+
+水戸黄門は実子を長兄へ養子に出し、また長兄の子を養子にとったりしている。
+なんか不自然に見えるが、次男の自分が家督を継いだことに引け目を感じてい
+たからだそうな。次代は兄の子へ継がせたかったということか。
+\bigskip
+\fi
+
+この図は単に人数が多いだけではなく、代を同じ高さに揃えるのに手間がかかっ
+た。この辺もfamilytree pkgの今後の課題だ、優先度は低いけれども。
+\end{minipage}
+\end{document}

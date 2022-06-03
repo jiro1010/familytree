@@ -1,0 +1,301 @@
+% \iffalse
+% Copyright 2022 Jiro Senju
+%
+%<package>\NeedsTeXFormat{LaTeX2e}
+%<package>\ProvidesPackage{familytree}%
+%<package>[2022/06/06 v1.0 familytree]
+%
+%<*driver>
+\documentclass[draft]{jltxdoc}
+\makeatletter
+\let\O@afterheading=\@afterheading
+\def\@afterheading{%
+  \@afterindenttrue%
+  \O@afterheading%
+}
+\makeatother
+\let\Ocmd=\cmd
+\renewcommand{\cmd}[1]{%
+  \hskip-\parindent\parbox{.95\textwidth}{\Ocmd{#1}}%
+}
+%
+\input{fonts}
+%\usepackage{otf}
+%
+\usepackage[dvipdfmx,final]{graphicx}
+\usepackage[final]{listings}
+\usepackage{jlisting}
+\lstset{basicstyle=\small\ttfamily,
+  language=TeX,
+  columns=[c]flexible,
+  tabsize=4,
+  %frame=tb,
+  keepspaces=true,
+  %lineskip=-.1em,
+  belowskip=\smallskipamount}
+\usepackage{longtable}
+\usepackage{multicol}
+\usepackage{needspace}
+\usepackage{setspace}
+%\usepackage[dvipdfmx,svgnames,hyperref]{xcolor}
+%
+% hyperref should come last
+\usepackage[dvipdfmx,final,pdfusetitle]{hyperref}
+\usepackage{pxjahyper}
+% CJKbookmarks=true
+% bookmarksdepth=section
+% pdffitwindow=true
+% pdfpagetransition=Dissolve
+% pdfstartview=FitB
+\hypersetup{
+  hyperfootnotes=false,
+  colorlinks=true,
+  linkcolor=blue,
+  % anchorcolor=black,
+  % citecolor=black,
+  % urlcolor=black,
+  bookmarks=true,
+  bookmarksnumbered=true,
+  setpagesize=false,
+  %pdftitle={},
+  %pdfauthor={},
+  pdfpagelayout=SinglePage,
+  pdfpagemode=UseOutlines,
+  pdfstartview=FitH
+}
+%
+\usepackage{/tmp/\jobname}
+%
+\makeatletter
+\def\meta@font@select{\slshape}
+\def\fps@table{htbp}
+%
+% \IfFileExists{/tmp/\jobname.lines}{\input{/tmp/\jobname.lines}}{}
+\let\part=\@gobble
+% \let\OtheCodelineNo=\theCodelineNo
+% \let\ODocInclude=\DocInclude%
+% \renewcommand{\DocInclude}[1]{%
+%   \@ifundefined{codeline@for@#1}{%
+%     %\let\theCodelineNo=\reset@font%
+%     \setcounter{CodelineNo}{9999}%
+%     }{%
+%     \setcounter{CodelineNo}{\@nameuse{codeline@for@#1}}%
+%     %\let\theCodelineNo=\OtheCodelineNo%
+%   }%
+%   \ODocInclude{#1}%
+% }
+%
+\newcount\ft@lastsection
+\newcommand{\subsectImpl}[1][\subsection]{%
+  \iftrue% debugging code
+    \@tempcnta=\numexpr\thesection + 1\relax%
+    \ifnum\@tempcnta>\ft@lastsection\else%
+      Jump to \hyperlink{section.\the\@tempcnta}{next section}%
+    \fi%
+  \fi%
+  \needspace{4\baselineskip}%
+  #1{実装}%
+}
+\makeatother
+%
+\renewcommand{\contentsname}{目次}
+\renewcommand{\tablename}{表}
+\newcommand{\parag}[1]{%
+  \allowbreak%
+  \paragraph{#1}\nopagebreak\hskip0pt\nopagebreak%
+  \medskip%
+}
+\newcounter{CS}[section]
+\newcommand{\CS}{%
+  \ifnum\theCS=0%
+    control sequence%
+    \stepcounter{CS}%
+  \else%
+    CS%
+  \fi%
+}
+\newcommand{\srcfig}[2][]{%
+  {%
+    \noautoxspacing%
+    %\inhibitxspcode`）=2% is not helpful
+    \lstinputlisting{/tmp/#2print}%
+    \nopagebreak[4]%
+  }%
+  \nopagebreak[4]%
+  \hfil\includegraphics[#1]{/tmp/#2.pdf}%
+}
+\newcommand{\jslash}{~\slash{} \allowbreak}
+\newcommand{\NoDescription}{\vspace*{-.9\baselineskip}}
+\newcommand{\IhadtoSplit}{%
+  長い処理を分割し連続実行しているだけの、決して綺麗ではない構造。%
+  global変数を多用しており、よろしくない。%
+  だが、処理が長いと読みにくいため分割した。%
+}
+\let\tableautorefname=\tablename%
+\renewcommand{\subsectionautorefname}{}
+\newcommand{\refnm}[1]{%
+  \autoref{#1}「\nameref{#1}」%
+}
+%
+% \EnableCrossrefs
+\DisableCrossrefs
+% \PageIndex
+%\CodelineIndex
+\makeatletter
+\let\theCodelineNo=\reset@font
+\AtEndDocument{%
+  \immediate\write\@auxout{%
+    \string\global\string\ft@lastsection=\thesection%
+  }%
+}
+\makeatother
+%\RecordChanges
+%
+\begin{document}
+\MakeShortVerb{\|}
+\let\PrintIndexO=\PrintIndex
+\let\PrintIndex=\relax
+\DocInput{\jobname.dtx}
+\DocInclude{lib}
+%\PrintChanges
+% \PrintIndexO
+\end{document}
+%</driver>
+% \fi
+%
+% \GetFileInfo{/tmp/\jobname.sty}
+% \title{{\spaceskip=1ex\textsf{\jobname} package \fileversion\\
+%       {\small (\Gcid)}}}
+% \author{千住治郎}
+% \date{\filedate}
+% \maketitle
+%
+% \FamilyTree
+%
+% 各人をboxとして定義し、各々を関係線でつなぐ。
+% 人物に情報を付加すれば\InheritanceDiagram としても使えるだろう。
+%
+% \begin{spacing}{.5}
+% \begin{itemize}
+% \item 父系\jslash 母系に対応
+% \item 縦書きに対応（|jlreq.cls|のみ確認）
+% \end{itemize}
+% \end{spacing}
+%
+% \setcounter{tocdepth}{4}
+% \columnseprule=\arrayrulewidth
+% \begin{multicols}{2}
+% \tableofcontents
+% \end{multicols}
+% \bigskip
+%
+% \section{はじめに}
+%
+% \FamilyTree はたまに眺めると興味深い。
+% 歴史からの影響もあると思うが、西洋では自分から始め両親のみを辿り、これを
+% 繰り返す形式が多いそうだ。2のべき乗で人物が増えて行くので見た
+% 目のバランスは採れている。
+% 国内では始祖から始める\Patrilineal 図
+% （\MaleLine 図）
+% が多いように思う。\Patrilineal のみを辿れば、図は比較的単純になるが、
+% 興味深さは半減する。
+% 兄弟姉妹関係のみならず婚姻関係も含めると、興味を大いにそそられる図にな
+% るが、複雑さは飛躍的に増大する。
+%
+% Graphviz (|dot(1)|)を使っても図は描けるが、見やすくするのは難しい。
+% また、|dot(1)|は国内で用いられる直線的な家系図には不向きではないかと思う。
+% 複雑な\FamilyTree でも間単に描けないかと試作したのが本パッケージである。
+% 著者のLatexの経験はそれほど多くないが、
+% 本パッケージが家系図を俯瞰する場合の一助になれば幸いである。
+% コメントや改善提案等も歓迎する。
+%
+% \subsection{実装について}
+%
+% 基本的に全ての\CS 名にはprefix |ft|を付加している。
+% しかし、利便性や視認性が犠牲になるため、
+% prefixを除いたalias/synonymも|\let|で定義する。
+% 当然ながらalias名が未使用な場合に限る。
+%
+% \CS 名が既定義でaliasを定義できなかった場合は、
+% その旨|\message|する。
+% 本文書でもprefixを省いたalias名を優先的に使用はするが、
+% 一部の\CS 名はprefix付きの名前を使用する。
+% \medskip
+%
+% |dtx|は複数に分割してあるが、
+% 生成される|sty|は一つである。
+% 本文書では|lib.dtx|を最後に載せるが|sty|内では冒頭に位置する。
+%
+% |dtx|には行番号を付加する機能があるが、あえて潰してある。
+% 複数ある|dtx|の順序を変更してあるためだ。
+% それぞれの|dtx|の冒頭でカウンタに値を入れ直してやれば、それらしい行
+% 番号は出力できるが、正確な値を拾い出すのは無理があるため止めた。
+% |ins|から|sty|を生成した際の|log|に行数が残されるが、あてにならない
+% 数字だった。
+% \medskip
+%
+% |xparse|を使用しているためoption引数は先頭に限らない。引数を囲む括弧は
+% 適宜使い分ける必要がある。
+% \bigskip
+%
+% 当初は全て|\hbox|、|\vbox|、もしくは|tabular|で処理できると思っていた
+% が、その後の線をつなげる段階で困った。
+% glue等により
+% |platex|が位置を調整してくれるので接続点が移動してしまい、
+% 汎用的\jslash 普遍的に線をつなげられないのだ。
+% TikZ等では座標定義や座標間線分描画みたいなこともできるのだろうか。
+% 分からない。
+% 線をつなげるためには|picture|を選択せざ
+% るを得なかった。線を描くためと言うよりも、描いた線をつなげるための
+% layout目的だ。
+%
+% depthの扱いにも困った、と言うか私には知識、経験が足りなかった。
+% 本パッケージではboxを複数作成し、|picture|により配置するが、ここで
+% depthを意識する必要があった。
+%
+% 縦書き対応でもdepthは重要だった。横書きではfontが持つ、英字と同様の
+% depthだが、縦書きでは和字の幅半分がdepthになる。
+% この辺は単に私が知らなかったと言えばそれまでなのだが、
+% ずいぶん手間がかかった。
+%
+% \subsection{構造}
+%
+% 図を構成する要素毎にboxとして定義し、
+% それらを連結する。
+% 人物間を線でつなぐ場合に備え、
+% box定義時に接続点の座標を別途定義しておく。
+%
+% 図の構成要素には次のものがある。
+%
+% \needspace{1\baselineskip}
+% \begin{spacing}{.5}
+% \begin{enumerate}
+% \item 人物box
+%   \begin{itemize}
+%   \item 実子、養子等を表すchild mark
+%   \item 肩書き
+%   \item 人物名
+%   \item \Patrilineal 図\jslash\Matrilineal 図に用いるmaleline\slash femaleline
+%   \item 付加情報\par
+%     生没年、別名など
+%   \end{itemize}
+%
+% \item 兄弟姉妹box
+%   \begin{itemize}
+%   \item それぞれのchild markをつなぐ実線
+%   \item 人物名の間に間隔を設けるためのinterval box
+%   \end{itemize}
+%
+% \item 婚姻box
+%   \begin{itemize}
+%   \item 二者をつなぐmarriage line（二重線）
+%   \end{itemize}
+%
+% \item 親子または二世代box
+% \end{enumerate}
+% \end{spacing}
+% \bigskip
+%
+% 以下、要素毎に説明する。
+%
+% \Finale

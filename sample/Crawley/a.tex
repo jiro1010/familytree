@@ -1,0 +1,257 @@
+\documentclass{article}
+\AtBeginDvi{\special{papersize=\the\paperwidth,\the\paperheight}}
+
+\makeatletter
+\let\stript=\strip@pt
+\makeatother
+
+\input{../../fonts}
+\usepackage[dvipdfm,a4paper]{geometry}
+\usepackage{familytree}
+
+\newcommand{\nee}[1]{%
+  \\{\relsize{-1}(n\'{e}e #1)}%
+}
+
+\newcommand{\cname}[2][0]{%
+  \ifnum#1=1\let\mybox=\fbox\else\let\mybox=\mbox\fi%
+  \mybox{%
+    \begin{minipage}[b]{5em}%
+      \baselineskip=\dimexpr\baselineskip*10/15\relax%
+      \centering{#2}%
+    \end{minipage}%
+  }%
+}
+
+\NewDocumentCommand{\idef}{O{\ftbiological}mO{0}moO{0pt}}{%
+  % [cmark] id [fbox] name [opt] [xlen]
+  \indvdldef[#1]{#2}{\cname[#3]{#4}}[#5][#6]%
+}
+
+\begin{document}
+%\pagestyle{empty}
+
+familytree pkg sample
+
+\section*{\textsl{Inheritance Diagram}}
+
+Here, the Crawley family and their stories are borrowed from the
+famous British TV series \textsl{Downton Abbey.}
+I've just borrowed it just to show how to use this familytree package.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Crawley sisters}
+
+\idef{youngSybil}{Lady Sybil}
+\idef{youngEdith}{Lady Edith}
+\idef{youngMary}{Lady Mary}
+\sblngdef{youngSis}{youngMary,ivali,youngEdith,ivali,youngSybil}
+
+\idef{Robert}[1]{Robert Crawley}[7th Earl of Grantham]
+\idef[\ftblank]{Cora}{Cora Crawley \nee{Levinson}}[Countess of
+  Grantham,\haschild]
+\mrrgdef{seven}{}{Robert}{Cora}
+
+\gensdef{RobertyoungSis}{seven}{%
+  {Cora}{youngSis}%
+}
+\fbox{\usebox{\RobertyoungSis}}
+\bigskip
+
+Under the fee tail or ``entail'', three daughters
+cannot inherit the title and the estate of Lord Grantham's,
+including the big amount of dowry Cora had brought.
+The law requires a male heir.
+
+Fortunately Robert has a cousin James Crawley, and his son Patrick.
+They are good heir presumptive to the earldom.
+Actually, but not officially, the eldest daughter Lady Mary is engaged
+to Patrick so that the family will keep their assets.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Relationship between Robert, Matthew and cousin Patrick}
+\small
+
+\idef{youngMatthew}[1]{Matthew Crawley}
+\idef{Patrick}[1]{Patrick Crawley}[deceased\,?]
+
+\idef{Reginald}{Dr. Reginald Crawley}[(deceased)]
+\idef[\ftblank]{Isobel}{Isobel Crawley \nee{Turnbull}}[\haschild]
+\mrrgdef{ReginaldIsobel}{}{Reginald}{Isobel}[3em]
+\gensdef{IsobelMatthew}{ReginaldIsobel}{%
+  {Isobel}{youngMatthew}%
+}
+
+\ftundef{Robert}
+\idef{Robert}[1]{Robert Crawley}[7th Earl of Grantham,\maleline][2em]
+\pcdef{RobertMary}{Robert}{youngMary}
+
+\idef{James}[1]{James Crawley}[(deceased),\maleline][2em]
+\pcdef{JamesPatrick}{James}{Patrick}
+
+% \fbox{\vbox{%
+%   \hbox{\usebox{\IsobelMatthew}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\RobertMary}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\JamesPatrick}}%
+% }}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\idef{sixMat}{{\relsize{-1} Mr. Crawley}}
+     [6th gen.,(deceased),\maleline][3em]
+\pcdef{sixMatpc}{sixMat}{IsobelMatthew}
+
+\idef{PatrickSix}{Patrick Crawley}
+     [6th Earl of Grantham,(deceased),\maleline][3em]
+\pcdef{sixRobpc}{PatrickSix}{RobertMary}
+
+\pcdef{sixPatpc}{sixMat}{JamesPatrick}
+
+\sblngdef{sixes}{sixRobpc,ival,sixPatpc}
+
+% \fbox{\vbox{
+%   \hbox{\usebox{\sixMatpc}}
+%   \vskip\baselineskip
+%   \hbox{\usebox{\sixes}}
+% }}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\idef{fiveMat}{{\relsize{-1} Mr. Crawley}}[5th gen.,(deceased),\maleline]
+\pcdef{fiveMatpc}{fiveMat}{sixMatpc}
+
+\idef{fiveRob}{{\relsize{-1} 5th Earl of Grantham}}[(deceased),\maleline]
+\pcdef{fiveRobpc}{fiveRob}{sixes}
+
+% \fbox{\vbox{%
+%   \hbox{\usebox{\fiveMatpc}}%
+%   \vskip\baselineskip%
+%   \hbox{\usebox{\fiveRobpc}}%
+% }}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\idef{fourMat}{{\relsize{-1} Mr. Crawley}}[4th gen.,(deceased),\maleline]
+\pcdef{fourMatpc}{fourMat}{fiveMatpc}
+\idef{fourRob}{{\relsize{-1} 4th Earl of Grantham}}[(deceased),\maleline]
+\pcdef{fourRobpc}{fourRob}{fiveRobpc}
+
+\sblngdef{fours}{fourRobpc,ival,fourMatpc}
+
+% \fbox{\usebox{\fours}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\idef[\fttop]{three}{{\relsize{-1} 3rd Earl of Grantham}}[(deceased),\maleline]
+\pcdef{threepc}{three}{fours}
+
+\fbox{\usebox{\threepc}}
+\bigskip
+
+\normalsize
+In 1912, James and Patrick have perished in the sinking of Titanic,
+and their body were not found. Not only Lady Mary lost her unofficial
+fianc\'{e}, but also the family lost the male hier.
+
+But Murray, Lord Grantham's lawyer discovered third cousin once
+removed, Matthew Crawley who is a son of an upper-middle-class doctor.
+Now Matthew has become the next heir presumptive.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Family member of Robert Crawley}
+
+\idef{Sybbie}{Sybil ``Sybbie'' Branson}
+\idef[\ftblank]{Tom}{Tom Branson}[\haschild]
+\idef{Sybil}{Sybil Cora Branson \nee{Crawley}}[(deceased)]
+
+\idef{Marigold}{Marigold Crawley}
+\idef{Edith}{Edith Pelham \nee{Crawley}}[Marchioness of Hexham]
+\idef[\ftblank]{Bertie}{Herbert ``Bertie'' Pelham}[7th Marquess of Hexham]
+\idef[\ftblank]{Gregson}{Michael Gregson}[(deceased),\private,\haschild]
+
+\idef{George}[1]{George Crawley}[Heir presumptive of,Robert Crawley]
+\idef[\ftblank]{Matthew}{Matthew Crawley}[(deceased),\haschild]
+\idef{Mary}{Mary Josephine Crawley}%[ ]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\mrrgdef{Bransons}{Tom}{Sybil}{}[\dimexpr\wd\Bertie-\wd\Sybil-2em\relax]
+\gensdef{TomSybbie}{Bransons}{%
+  {Tom}{Sybbie}%
+}
+% \fbox{\usebox{\TomSybbie}}
+
+\mrrgdef{EdithHus}{Gregson}{Edith}{Bertie}[-2em]
+\gensdef{EdithMarigold}{EdithHus}{%
+  {Gregson}{Marigold}%
+}
+% \fbox{\usebox{\EdithMarigold}}
+
+\mrrgdef{MatthewMary}{Matthew}{Mary}{}
+        [\dimexpr\wd\Bertie-\wd\Matthew-2em\relax]
+\gensdef{MaryGeorge}{MatthewMary}{%
+  {Matthew}{George}%
+}
+% \fbox{\usebox{\MaryGeorge}}
+
+\sblngdef{sis}{MaryGeorge,ivalii,EdithMarigold,ivalii,TomSybbie}
+% \fbox{\usebox{\sis}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\idef{Rosamund}{Rosamund Painswick \nee{Crawley}}
+\hyphenation{Marmaduke}
+\idef[\ftblank]{Marmaduke}{Sir Marmaduke Painswick}[(deceased)]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\mrrgdef{Painswicks}{}{Rosamund}{Marmaduke}
+\sblngdef{RobertRosamund}{seven,ivalii,Painswicks}
+% \fbox{\usebox{\RobertRosamund}}
+
+\edef\RobertRosamundsevennameCY{%
+  \stript\dimexpr\sevenCoramrrgCY pt + \RobertRosamundsevennameCY pt%
+    - \sevennameCY pt%
+}
+\gensdef{Robertandsis}{RobertRosamund}{%
+  {seven}{sis}%
+}
+% \fbox{\usebox{\Robertandsis}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ftundef{PatrickSix}
+\idef{PatrickSix}{Patrick Crawley}[6th Earl of Grantham (deceased)]
+\idef[\ftblank]{Violet}{Violet Crawley}
+     [Dowager Countess of Grantham,\haschild]
+
+\mrrgdef{six}{}{PatrickSix}{Violet}
+\gensdef{Crawleys}{six}{%
+  {Violet}{Robertandsis}%
+}
+
+\fbox{\usebox{\Crawleys}}
+
+\hfill (at the end of Season 7)
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\idef[\ftblank]{}{Isidore Levinson}[(deceased)]
+\idef{}{Martha Levinson}
+\mrrgdef{Levinsons}{}{Isidore}{Martha}
+\idef{}{Harold Levinson}
+
+\idef{}{Roberta}
+\idef[\ftblank]{}{husband}
+
+\idef{}{Susan MacClare}[Marchioness of Flintshire]
+\idef[\ftblank]{}{Hugh ``Shrimpie'' MacClare}[Marquess of Flintshire]
+\mrrgdef{MacClares}{}{Shrimpie}{Susan}
+\idef{}{Lady Rose MacClare}

@@ -1,0 +1,14 @@
+\indvdldef{Dudly}{Dudly}
+\indvdldef{Petunia}{Petunia}[\matrilineal]
+\pcdef{Dursleys}{Petunia}{Dudly}
+\fbox{\usebox{\Dursleys}}
+
+\indvdldef{Harry}{Harry}
+\newsavebox{\boxA}
+\savebox{\boxA}{\hbox{Petunia}}
+\indvdldef{Lily}{\hbox to \wd\boxA{Lily}}[\matrilineal]
+\pcdef{Potters}{Lily}{Harry}
+\fbox{\usebox{\Potters}}
+
+\sblngdef{sis}{Dursleys,Potters}
+\fbox{\usebox{\sis}}

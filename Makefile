@@ -11,16 +11,21 @@ Lo = '\def\Gcid{'${Gcid}'}'
 
 Name = familytree
 Tgt = ${Dir}/${Name}.sty ${Dir}/${Name}-ja.pdf
-Dtx = $(addsuffix .dtx, ${Name} lib individual sibling)
+Dtx = $(addsuffix .dtx, ${Name} lib individual sibling gens)
 
 Fig = fig1base fig1Ieyasu fig1Hidetada
 Fig += fig2base fig2Hidetada fig2ival fig2cfg
+Fig += fig3Hidetada fig3Ietsuna fig3Iemitsu
+figLily = $(addprefix fig3Lily, 1 2 3 4)
+Fig += ${figLily}
 
 figTY = $(addsuffix T, ${Fig}) $(addsuffix Y, ${Fig})
 figTYPdf = $(addprefix ${Dir}/, $(addsuffix .pdf, ${figTY}))
 figPdf = $(addprefix ${Dir}/, $(addsuffix .pdf, ${Fig}))
 figPrint = $(addprefix ${Dir}/, $(addsuffix print.tex, \
 		${Fig} \
+		$(addsuffix T, fig3Iemitsu) \
+		$(addsuffix Y, ${figLily}) \
 		))
 
 ########################################
@@ -75,7 +80,7 @@ ${figPdf}: ${Dir}/%.pdf: ${Dir}/%T.pdf ${Dir}/%Y.pdf fig.tex
 ########################################
 
 untilComment = $(addprefix ${Dir}/, $(addsuffix print.tex, \
-	fig1Ieyasu fig2Hidetada))
+	fig1Ieyasu fig2Hidetada fig3Hidetada))
 ${untilComment}: ${Dir}/%print.tex: %.tex
 	sed -e '/^%$$/,$$d' $< | grep -v '^%' > $@
 
@@ -83,6 +88,20 @@ noIndvdl =  $(addprefix ${Dir}/, $(addsuffix print.tex, \
 	fig2ival fig2cfg))
 ${noIndvdl}: ${Dir}/%print.tex: %.tex
 	fgrep -vw indvdldef $< > $@
+
+${Dir}/fig3Lily2print.tex: ${Dir}/%print.tex: %.tex
+	echo ' ... ' > $@
+	tail -8 $< | grep -v '^%' >> $@
+
+${Dir}/fig3Lily3print.tex: ${Dir}/%print.tex: %.tex
+	echo ' ... ' > $@
+	head -13 $< | tail -7 | grep -v '^%' >> $@
+	echo ' ... ' >> $@
+
+${Dir}/fig3Lily4print.tex: ${Dir}/%print.tex: %.tex
+	echo ' ... ' > $@
+	head -11 $< | tail -5 | grep -v '^%' >> $@
+	echo ' ... ' >> $@
 
 ${Dir}/%Tprint.tex ${Dir}/%Yprint.tex: ${Dir}/%print.tex
 	cp -p $< $@

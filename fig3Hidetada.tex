@@ -1,0 +1,29 @@
+\indvdldef{踩各}[话洛]{踩各}[\maleline]
+\indvdldef{瞄墓}{瞄墓∈劫蚕∷}
+\indvdldef{赖欠}{赖欠∈瘦彩∷}
+\sblngdef{建瞄の灰}{踩各,瞄墓,赖欠}
+
+\indvdldef{建瞄}[企洛]{建瞄}[\maleline]
+\pcdef{建瞄科灰}{建瞄}{建瞄の灰}
+\fbox{\usebox{\建瞄科灰}}
+%
+\newcommand{\boxsz}[1]{%
+  \texttt{\textbackslash#1} & \nameuse{#1}\\%
+}
+\newcommand{\tblA}{%
+  {%
+    \footnotesize%
+    \noautoxspacing%
+    \begin{tabular}{l|l}%
+      \boxsz{建瞄科灰nameCY}%
+      \boxsz{建瞄科灰建瞄の灰Y}%
+    \end{tabular}%
+  }%
+}
+\ifmaketate
+  \raisebox{6.5zh}{\tatechuyoko{\tblA}}
+\else
+  \par
+  \bigskip
+  \tblA
+\fi

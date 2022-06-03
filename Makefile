@@ -11,9 +11,10 @@ Lo = '\def\Gcid{'${Gcid}'}'
 
 Name = familytree
 Tgt = ${Dir}/${Name}.sty ${Dir}/${Name}-ja.pdf
-Dtx = $(addsuffix .dtx, ${Name} lib individual)
+Dtx = $(addsuffix .dtx, ${Name} lib individual sibling)
 
 Fig = fig1base fig1Ieyasu fig1Hidetada
+Fig += fig2base fig2Hidetada fig2ival fig2cfg
 
 figTY = $(addsuffix T, ${Fig}) $(addsuffix Y, ${Fig})
 figTYPdf = $(addprefix ${Dir}/, $(addsuffix .pdf, ${figTY}))
@@ -74,9 +75,14 @@ ${figPdf}: ${Dir}/%.pdf: ${Dir}/%T.pdf ${Dir}/%Y.pdf fig.tex
 ########################################
 
 untilComment = $(addprefix ${Dir}/, $(addsuffix print.tex, \
-	fig1Ieyasu))
+	fig1Ieyasu fig2Hidetada))
 ${untilComment}: ${Dir}/%print.tex: %.tex
 	sed -e '/^%$$/,$$d' $< | grep -v '^%' > $@
+
+noIndvdl =  $(addprefix ${Dir}/, $(addsuffix print.tex, \
+	fig2ival fig2cfg))
+${noIndvdl}: ${Dir}/%print.tex: %.tex
+	fgrep -vw indvdldef $< > $@
 
 ${Dir}/%Tprint.tex ${Dir}/%Yprint.tex: ${Dir}/%print.tex
 	cp -p $< $@

@@ -1,0 +1,28 @@
+\indvdldef{²È¸÷}[»°Âå]{²È¸÷}
+\indvdldef{ÃéÄ¹}{ÃéÄ¹¡Ê½Ù²Ï¡Ë}
+\indvdldef{ÀµÇ·}{ÀµÇ·¡ÊÊÝ²Ê¡Ë}
+\sblngdef{½¨Ãé¤Î»Ò}{²È¸÷,ÃéÄ¹,ÀµÇ·}
+\fbox{\usebox{\½¨Ãé¤Î»Ò}}
+%
+\newcommand{\boxsz}[1]{%
+  \texttt{\textbackslash#1} & \nameuse{#1}\\%
+}
+\newcommand{\tblA}{%
+  {%
+    \footnotesize%
+    \noautoxspacing%
+    \begin{tabular}{l|l}%
+      \boxsz{½¨Ãé¤Î»ÒnameCY}%
+      \boxsz{½¨Ãé¤Î»Ò²È¸÷nameCY}%
+      \boxsz{½¨Ãé¤Î»ÒÃéÄ¹nameCY}%
+      \boxsz{½¨Ãé¤Î»ÒÀµÇ·nameCY}%
+    \end{tabular}%
+  }%
+}
+\ifmaketate
+  \tatechuyoko{\tblA}
+\else
+  \par
+  \bigskip
+  \tblA
+\fi

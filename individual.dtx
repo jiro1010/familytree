@@ -794,9 +794,8 @@
 % |\ft@cmarkbox|、
 % およびその幅を表す|\ft@cmarkW|を定義する。
 %
-% \meta{cmark}が|\biological|か、
-% または|\adopted|の場合は、
-% 目に見えるchild-markが存在することを表すglobal flagを、
+% \meta{cmark}が|\ftblank|以外の場合は、
+% child-markが存在することを表すglobal flagを
 % \meta{containerbox-name}に指定された名前を基に定義する。
 %
 % |\ft@optlst|により\meta{additional info}を解析し、
@@ -833,6 +832,7 @@
   %
   \ft@cmarkdef{ft@cmarkbox}{#1}{0pt}{\ft@namebox@sp}%
   \ifcase#1% fttop
+    \ft@namexdef{#2hascmark}{#1}%
   \or% ftbiological
     \ft@namexdef{#2hascmark}{#1}%
   \or% ftadopted

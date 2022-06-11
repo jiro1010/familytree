@@ -1,4 +1,5 @@
 
-all clean:
-	$(foreach i, Asai Crawley Tokugawa, \
-		${MAKE} -C ${CURDIR}/${i} $@ || exit 1;)
+all clean install:
+	${RM} *~
+	for i in Asai Tokugawa; \
+	do ${MAKE} -C ${CURDIR}/$${i} $@; done

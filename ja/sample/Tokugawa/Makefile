@@ -2,8 +2,16 @@
 Dir ?= /tmp
 Tgt = ${Dir}/Tokugawa.pdf
 
-include ../../cmd.mk
-include ../common.mk
+LATEX ?= platex -kanji=euc
+include ../../../cmd.mk
+
+all: ${Tgt}
+
+clean:
+	${RM} *~ ${Tgt}
+
+install:
+	install -m 444 -pD ${Tgt} ${InstallDir}/source/latex/${Name}/
 
 ${Tgt}: $(wildcard *.tex) ${Dir}/familytree.sty
 	$(call Latex, a.tex)

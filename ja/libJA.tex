@@ -1,199 +1,80 @@
-%
-% \section{library (\texttt{lib.dtx})}
-%
-% 説明の最後ではあるが、
-% 本章は|sty|内では先頭に位置する。
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsectImpl
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%    \begin{macrocode}
-\RequirePackage{relsize}
-\RequirePackage{xparse}
-%    \end{macrocode}
-% \smallskip
-%
-% \DescribeMacro{\if@ch}
+\iffalse
+Copyright 2022 Jiro Senju
+
+This package is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+any later version.
+
+This package is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this package.  If not, see <http://www.gnu.org/licenses/>.
+\fi
+
+\section{library (\texttt{lib.dtx})}
+
+本文書中最後の章ではあるが、
+|lib.dtx|は|sty|内では先頭に位置する。
+
+\iffalse
+% \DescribeMacro{\ft@unit}
 % 一文字の横幅を表す（日英対応）。
-% \smallskip
 %
 % \DescribeMacro{\if@tate}
 % |\if@tate|が定義されていないdocumentclassに対応する。
 % 効果は未確認。
-% \medskip
-%
-%    \begin{macrocode}
-\global\newlength{\ft@ch}%
-\@ifundefined{if@tate}{%
-  \global\newif\if@tate%
-  \global\ft@ch=1em%
-}{
-  \global\ft@ch=1zw%
-}%
-%    \end{macrocode}
-% \smallskip
 %
 % \DescribeMacro{\ft@alias}
 % prefix |ft|を除外したaliasを定義する。名前が使えなければ諦めて
 % |message|する。
 % なんでこんなに沢山|\expandafter|が必要になるのか理解できていない。
-% \medskip
-%
-%    \begin{macrocode}
-\newcommand{\ft@alias}[1]{% ft-less-name
-  \@ifundefined{#1}{%
-    \global\expandafter\expandafter\expandafter%
-      \let\expandafter\expandafter\csname#1\endcsname\expandafter%
-      =\csname ft#1\endcsname%
-  }{%
-    \message{skip alias to ft#1}%
-  }%
-}
-%    \end{macrocode}
-%
+\fi
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsubsection{utility}
-%
-% \DescribeMacro{\ftymd}
-% \DescribeMacro{\ymd}
-% \cmd{\ftymd
-%   \marg{year}
-%   \oarg{month}
-%   \oarg{date}
-% }
-% \medskip
-%
-% 年月日を整形、印字する。縦書きにも対応している。
-% |\indvdldef|の付加情報での利用を想定している。
-% \medskip
-%
-%    \begin{macrocode}
-\NewDocumentCommand{\ftymd}{moo}{% year [month] [date]
-  \if@tate%
-  \tatechuyoko{#1}%
-  \IfValueT{#2}{\tatechuyoko{#2}}%
-  \IfValueT{#3}{\tatechuyoko{#3}}%
-  \else%
-  #1%
-  \IfValueT{#2}{\slash#2}%
-  \IfValueT{#3}{\slash#3}%
-  \fi%
+\subsection{utility}
+
+\DescribeMacro{\ftymd}
+\DescribeMacro{\ymd}
+\cmd{\ftymd
+  \marg{year}
+  \oarg{month}
+  \oarg{date}
 }
-\ft@alias{ymd}
-%    \end{macrocode}
-%
-% \DescribeMacro{\ftundef}
-% \cmd{\ftundef
-%   \marg{box name}
-% }
-%
-% 名前に\meta{box name}を持つものを全て未定義とする。
-% prefix |ft|なしのaliasは設けない。
-% \smallskip
-%
-%    \begin{macrocode}
-\newcommand{\ftundef}[1]{%
-  \@for\@temptokena:=#1\do{%
-    \global\expandafter\let\csname\@temptokena\endcsname=\relax%
-    \global\expandafter\let\csname\@temptokena nameCY\endcsname=\relax%
-    \global\expandafter\let\csname\@temptokena mrrgCY\endcsname=\relax%
-    \global\expandafter\let\csname\@temptokena hasmaleline\endcsname%
-      =\relax%
-  }%
+
+年月日を整形、印字する。縦書きにも対応している。
+|\indvdldef|の付加情報での利用を想定している。
+\bigskip
+
+\DescribeMacro{\ftundef}
+\cmd{\ftundef
+  \marg{box name}
 }
-%    \end{macrocode}
-%
+
+名前に\meta{box name}を持つものを全て未定義とする。
+prefix |ft|なしのaliasは設けない。
+
+\iffalse
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsubsection{internal library}
 %
 % \parag{global variable}
 %
-%    \begin{macrocode}
-\newif\ifft@box@has@maleline
-\newif\ifft@widest@has@no@maleline
-\newlength{\ft@len}
-\newlength{\ft@width}
-\newlength{\ft@height}
-\newlength{\ft@depth}
-\newlength{\ft@theight}
-\newlength{\ft@x}
-\newlength{\ft@xx}
-\newlength{\ft@y}
-\newlength{\ft@yy}
-%    \end{macrocode}
-%
 % \parag{utility function}
 %
 % \DescribeMacro{\ft@namexdef}
 % \DescribeMacro{\ft@namexdefstrip}
-% \NoDescription
-%    \begin{macrocode}
-\newcommand{\ft@namexdef}[2]{% name value
-  \global\expandafter\edef\csname#1\endcsname{#2}%
-  %\expandafter\xdef\csname#1\endcsname{#2}%
-  \ft@dbgmsg{xdef #1 #2}%
-}
-\newcommand{\ft@namexdefstrip}[2]{% name length
-  \ft@namexdef{#1}{\strip@pt#2}%
-}
-%    \end{macrocode}
 %
 % \DescribeMacro{\ft@savenamebox}
 % \DescribeMacro{\ft@newnamebox}
-% \NoDescription
-%    \begin{macrocode}
-\newcommand{\ft@savenamebox}[2]{% name contents
-  \expandafter\savebox\expandafter{\csname#1\endcsname}{#2}%
-}
-\newcommand{\ft@newnamebox}[2]{% name contents
-  \global\expandafter\newsavebox\expandafter{\csname#1\endcsname}%
-  \ft@savenamebox{#1}{#2}%
-}
-%    \end{macrocode}
 %
 % \DescribeMacro{\ft@nameboxsz}
 % \DescribeMacro{\ft@boxsz}
-% \NoDescription
-%    \begin{macrocode}
-\newcommand{\ft@nameboxsz}[4][]{% [width] name ht-value dp-value
-  \ifx#1\empty\else%
-  \expandafter\wd\csname#2\endcsname=#1%
-  \fi%
-  \expandafter\ht\csname#2\endcsname=#3%
-  \expandafter\dp\csname#2\endcsname=#4%
-  \ft@dbgmsg{#2 box, W \the\wd\@nameuse{#2}, H \the\ht\@nameuse{#2},%
-    D \the\dp\@nameuse{#2}}%
-}
-\newcommand{\ft@boxsz}[3]{% box ht-value dp-value
-  \expandafter\ht#1=#2%
-  \expandafter\dp#1=#3%
-  \ft@dbgmsg{#2 box, W \the\wd#1, H \the\ht#1, D \the\dp#1}%
-}
-%    \end{macrocode}
 %
 % \DescribeMacro{\ft@list@append}
-% \NoDescription
-%    \begin{macrocode}
-\newcommand{\ft@list@append}[3]{% list element
-  \ifx#1\empty%
-  \xdef#1{#2}%
-  \else%
-  \xdef#1{#1,#2}%
-  \fi%
-}
-\iffalse
-\newcommand{\ft@detokenize}[1]{%
-  {%
-    \escapechar=`\ %
-    \catcode`\ =9%
-    %\string#1%
-    \detokenize{#1}%
-  }%
-}
-\fi
-%    \end{macrocode}
 %
 % \parag{debugging}
 %
@@ -202,45 +83,4 @@
 % \DescribeMacro{\ft@dbgframe}
 % \DescribeMacro{\ft@dbgplot}
 % \DescribeMacro{\ft@dbgbox}
-% \NoDescription
-%    \begin{macrocode}
-\newif\ifftdbg
-\newcommand{\ft@dbgmsg}[1]{%
-  \ifftdbg%
-    \message{#1}%
-  \fi%
-}
-\newcommand{\ft@dbgframe}[2][0,0]{% [point x,y] width,height
-  \ifftdbg%
-    \put(#1){\framebox(#2){}}%
-  \fi%
-}
-\newcommand{\ft@dbgplot}[2][]{%
-  \ifftdbg%
-    \put(#2){\circle{1}{\tiny#1}}%
-  \fi%
-}%
-\newcommand{\ft@dbgbox}[2][]{% [extra-put] box
-  \ifftdbg%
-    \ft@len=\dimexpr\ht#2 + \dp#2\relax%
-    \begin{picture}(\strip@pt\wd#2,\strip@pt\ht#2)(0,-\strip@pt\dp#2)%
-      \ft@dbgframe[0,-\strip@pt\dp#2]{\strip@pt\wd#2,\strip@pt\ft@len}%
-      %\put(0,0){{\tiny\ft@detokenize{#2}}}%
-      %\put(0,-\strip@pt\dp#2){\usebox{#2}}%
-      \put(0,0){\usebox{#2}}%
-      #1%
-    \end{picture}%
-  \fi%
-}
-%    \end{macrocode}
-%
-% \subsubsection{単純文字列}
-%
-%    \begin{macrocode}
-\newcommand{\FamilyTree}{家系図}
-\newcommand{\Patrilineal}{父系}
-\newcommand{\Matrilineal}{母系}
-\newcommand{\MaleLine}{男系}
-\newcommand{\FemaleLine}{女系}
-\newcommand{\InheritanceDiagram}{相続関係説明図}
-%    \end{macrocode}
+\fi

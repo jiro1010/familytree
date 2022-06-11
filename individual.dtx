@@ -1,171 +1,163 @@
-%
-% \section{人物 (\texttt{individual.dtx})}
+% \section{Individual Box (\texttt{individual.dtx})}
 %
 % \DescribeMacro{\indvdldef}
+% \indent
 % \cmd{\indvdldef
 %   \oarg{child mark}
 %   \marg{new box name}
 %   \oarg{title}
 %   \marg{individual name}
-%   \oarg{additonal info}
+%   \oarg{additional info}
 %   \oarg{maleline xlength}
 % }
 % \medskip
 %
-% 与えられた情報を整形\jslash 配置したboxを、指定された\meta{new box name}で定義する。
+% Defines a new box named \meta{new box name}, and layouts the
+% given arguments in that box.
 %
 % \begin{enumerate}
-% \item \oarg{child mark}\\
-% 人物名の前に描く線の種別を指定する。
-% 後述する|\ftbiological|、
-% |\ftadopted|、
-% |\fttop|、
-% |\ftblank|
-% のいづれかを指定する
+% \item \oarg{child mark}
+% \par
+% The type of a line which is located ahead of the individual name.
+% \par
+% Specify one of |\ftbiological|,
+% |\ftadopted|,
+% |\fttop|,
+% or |\ftblank|.
+% Details are discussed later.
 %
-% \item \marg{new box name}\\
-% 定義するbox名。
-% \CS ではない
-% （baskslashを付けない）
+% \item \marg{new box name}
+% \par
+% The name of a new box.
+% \par
+% This is not a \CS{} (no backslash).
 %
-% \item \oarg{title}\\
-% 肩書き\par
-% 人物名の肩に二回り小さなサイズ（|\relsize{-2}|）で配置される
+% \item \oarg{title}
+% \par
+% One's title.
+% \par
+% Put at the shoulder of the individual name with a smaller font
+% (|\relsize{-2}|).
 %
-% \item \marg{individual name}\\
-% 人物名
+% \item \marg{individual name}
+% \par
+% One's name.
 %
-% \item \oarg{additonal info}\\
-% 付加情報\par
-% 生没年、別名等、任意の情報を追加できる。
-% 人物名の次段に一回り小さなサイズ（|\relsize{-1}|）で配置される。
-% 更に後述する
-% |\ftmaleline| (|\ftfemaleline|, |\ftpatrilineal|, |\ftmatrilineal|)、
-% |\fthaschild|、
-% |\ftprivate|
-% の属性も指定できる
+% \item \oarg{additional info}
+% \par
+% Additional information.
+% \par
+% Anything can be added such as birth\slash death year-month-date and alias.
+% Put with a little smaller font (|\relsize{-1}|) at next to the individual name.
+% Also the attributes (discussed later),
+% |\ftmaleline| (|\ftfemaleline|, |\ftpatrilineal|, |\ftmatrilineal|),
+% \allowbreak|\fthaschild|,
+% |\ftprivate| are specified here.
 %
-% \item \oarg{maleline xlength}\\
-% 人物名から子への線を描く場合
-% （図に婚姻関係を含めない場合）、
-% 線の長さを増減する。
-% 但し、後述する兄弟姉妹box内では自動的に調節されるため、
-% 意味を失う。
+% \item \oarg{maleline xlength}
+% \par
+% When you draw a line from an individual (instead of a marriage box) to
+% a child, the length of the line can be adjusted by this argument.
+% But in the sibling box, the line length will be adjusted automatically
+% regardless this argument.
 % \end{enumerate}
 %
-% 更に後で使用する座標（単位は|pt|）を表す\CS も定義する。
-% 要素（人物名）に関する座標の原点はそれぞれ、
-% 横書きの場合はbox左下、
-% 縦書きの場合はbox左上である。
+% Also |\indvdldef| defines some connection points as \CS. The origin is
+% left-bottom of the box and the unit is |pt|.
 %
-% \begin{longtable}{lp{.66\textwidth}}
+% \begin{table}
+% \hfil\begin{tabular}{ll}
 % \meta{box name}|nameX| &
-% 配置した人物名の末尾
+% the tail of the individual name
 % \\
 %
 % \meta{box name}|nameCX| &
-% 配置した人物名の幅の中央
-% （縦書きならば高さの中央）
+% the center of the width of individual name
 % \\
 %
 % \meta{box name}|nameCY| &
-% 配置した人物名の高さの中央
-% （縦書きならば幅の中央）
-% \end{longtable}
-% \addtocounter{table}{-1}
-% \bigskip
+% the center of the height of individual name
+% \end{tabular}
+% \end{table}
 %
-% \oarg{child mark}には次の値のいづれかを指定する。
+% For \oarg{child mark}, you can specify one of these values.
 %
-% \begin{longtable}{p{.25\textwidth}p{.66\textwidth}}
-% \caption{child mark}\label{table:cmark}\\
-% |\biological|\par|\ftbiological| &
-% 人物名の前に実子を意味する実線を描く。
-% \\
-% \hline
-%
-% |\adopted|\par|\ftadopted| &
-% 人物名の前に養子を意味する二重線を描く。
-% \\
-% \hline
-%
-% |\fttop|\par(|\top|) &
-% 線を描かない。系図の最上位に用いる。
-% \\
-% \hline
-%
-% |\blank|\par|\ftblank| &
-% 線を描かない代わりに、同じサイズの空白を挿入する。後述する
-% |\mrrgdef|に指定する配偶者などの定義時に使用する。
-% \end{longtable}
-% \bigskip
-%
-% \oarg{additonal info}には次の属性を含められる。
-%
-% \begin{longtable}{p{.25\textwidth}p{.66\textwidth}}
-% \caption{属性}\label{table:attrib}\\
-% |\haschild|\par|\fthaschild| &
-% 子をもうけた配偶者を表す。\par
-% 後述する婚姻関係定義に使用すると、婚姻
-% 関係を意味する二重線から直角に実線を描く。
-% \\
-% \hline
-%
-% |\private|\par|\ftprivate| &
-% 法的な婚姻関係ではないことを表す。\par
-% 後述する婚姻関係定義に使用する
-% と、婚姻関係を意味する二重線を点線にする。
-% \\
-% \hline
-%
-% |\maleline|\par|\ftmaleline| &
-% 婚姻線を描かず人物名から子への線を描く。\par
-% 線の長さはオプション引数|maleline調整|で加減できる。
-% |\ftfemaleline|、
-% |\ftpatrilineal|、
-% |\ftmatrilineal|と同義。
-% \end{longtable}
-% \bigskip
-%
-% 作成するboxの中身は細分化されたboxである。
-% \smallskip
-%
-% \begin{spacing}{.5}
 % \begin{itemize}
-% \item 肩書きを表す|\ft@titlebox|
-% \item 人物名を表す|\ft@namebox|
+% \item |\biological| or |\ftbiological|
 % \par
-% 内部には更に\meta{child mark}を表す|\ft@cmarkbox|、
-% \meta{maleline}を表す\allowbreak|\ft@malelinebox|がある。
-% \item 付加情報を表す|\ft@optbox|
+% a single line to represent a biological\slash real child.
+%
+% \item |\adopted| or |\ftadopted|
+% \par
+% a double line to represent an adopted child.
+%
+% \item |\fttop| (or |\top|)
+% \par
+% no line at all.
+%
+% \item |\blank| or |\ftblank|
+% \par
+% put a space whose size is equal to the |\biological| or |\adopted| mark,
+% assuming used for the spouse in a marriage box.
 % \end{itemize}
-% \end{spacing}
+% \bigskip
+%
+% For \oarg{additional info}, you can specify any of these attributes.
+%
+% \begin{itemize}
+% \item |\haschild| or |\fthaschild|
+% \par
+% represents a spouse who has a child.
+% draws a line in a marriage box to their child from the center of the
+% double line which represents a marriage.
+%
+% \item |\private| or |\ftprivate|
+% \par
+% represents the marriage is not official.
+% draws a dashed double line.
+%
+% \item |\maleline| or |\ftmaleline|
+% \par
+% draws a line to a child from the individual name instead of the double
+% line in the marriage box.
+% |\ftfemaleline|,
+% |\ftpatrilineal|,
+% |\ftmatrilineal| are all equivalent.
+% \end{itemize}
+% \bigskip
+%
+% The individual box consists of a few smaller boxes.
+%
+% \begin{itemize}
+% \item |\ft@titlebox|
+% \item |\ft@namebox|
+% \par
+% In |\ft@namebox|, there are |\ft@cmarkbox| which represents the
+% \meta{child mark}
+% and |\ft@malelinebox| which represents \meta{maleline}.
+%
+% \item |\ft@optbox|
+% \end{itemize}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsection{カスタマイズ}
+% \subsection{Customization}
 %
-% 配置を調整する機能もある。
-% 変更しないものには空を指定すれば良い。
-% 大したことはしていないので必要に応じ参照\jslash 使用する程度で良い。
-% 引数等詳細は実装を参照のこと。
-% \medskip
-%
-% \needspace{1.5\baselineskip}
 % \DescribeMacro{\nameboxcfg}
+% \indent
 % \cmd{\nameboxcfg
 %   \marg{space from the child mark}
 %   \marg{font}
 %   \marg{space to the maleline}
 %   \marg{maleline length}
 % }
-% \smallskip
+% \medskip
 %
 % \DescribeMacro{\cmarkboxcfg}
 % \cmd{\cmarkboxcfg
 %   \marg{space between two lines, for adopted}
 %   \marg{line length}
 % }
-% \smallskip
+% \medskip
 %
 % \DescribeMacro{\titleboxcfg}
 % \cmd{\titleboxcfg
@@ -174,7 +166,7 @@
 %   \marg{linestretch}
 %   \marg{vspace to the individual name}
 % }
-% \smallskip
+% \medskip
 %
 % \DescribeMacro{\optboxcfg}
 % \cmd{\optboxcfg
@@ -185,42 +177,33 @@
 % }
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsection{例}
+% \needspace{12ex}
+% \subsection{Example}
 %
 % \begin{enumerate}
 % \item
-% \srcfig{fig1base}
+% \srcfig{fig1Robert1}
 %
 % \item
-% \srcfig{fig1Ieyasu}
-%
-% \item
-% \srcfig{fig1Hidetada}
+% \srcfig{fig1Robert2}
 % \end{enumerate}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsectImpl
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsubsection{child-mark box}
+% \subsubsection{Child-mark box}
 %
-% \parag{カスタマイズ}
+% \parag{Customization}
 %
 % \DescribeMacro{\ftcmarkboxcfg}
 % \DescribeMacro{\cmarkboxcfg}
-% child markを配置したboxを生成する際に使用する
-% |\adopted|の二重線の間隔、
-% 線の長さ
-% をカスタマイズできる。
-%
-% 変更しないものには空を指定すれば良い。
-% \smallskip
 %
 %    \begin{macrocode}
 \newlength{\ft@cmarkbox@adopted@sep}
 \setlength{\ft@cmarkbox@adopted@sep}{4pt}
 \newlength{\ft@cmarkbox@length}
-\setlength{\ft@cmarkbox@length}{1\ft@ch}
+\setlength{\ft@cmarkbox@length}{1\ft@unit}
 \newcommand{\ftcmarkboxcfg}[2]{% adopted-sep line-length
   \ifx#1\empty\else%
     \setlength{\ft@cmarkbox@adopted@sep}{#1}%
@@ -232,7 +215,7 @@
 \ft@alias{cmarkboxcfg}
 %    \end{macrocode}
 %
-% \parag{box生成}
+% \parag{Define a box}
 %
 % \DescribeMacro{\fttop}
 % \DescribeMacro{\top}
@@ -242,9 +225,6 @@
 % \DescribeMacro{\adopted}
 % \DescribeMacro{\ftblank}
 % \DescribeMacro{\blank}
-% child mark種類。
-% それぞれの意味は\refnm{table:cmark}を参照。
-% \bigskip
 %
 %    \begin{macrocode}
 \chardef\fttop=0
@@ -256,22 +236,12 @@
 \ft@alias{adopted}
 \ft@alias{blank}
 %    \end{macrocode}
-% \smallskip
 %
 % \DescribeMacro{\ft@indvdl@nameH}
 % \DescribeMacro{\ft@indvdl@nameD}
 % \DescribeMacro{\ft@indvdl@nameCY}
 % \DescribeMacro{\ft@do@cmarkdef}
 % \DescribeMacro{\ft@cmarkdef}
-% 指定された\meta{cmark}を持つboxを、\meta{cmarkbox-name}に指定された名前で生
-% 成する。
-%
-% 罫線文字を使うことも検討したが、fontが異なるとつながらなくなる恐れがあ
-% るため|picutre|の|line|にした。
-%
-% |\ft@indvdl@nameH|、|\ft@indvdl@nameD|、|\ft@indvdl@nameCY|はinterface
-% である|\indvdldef|が初期化する。
-% \smallskip
 %
 %    \begin{macrocode}
 \newsavebox{\ft@cmarkbox}
@@ -319,28 +289,20 @@
 %    \end{macrocode}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsubsection{付加情報box}
+% \needspace{3\baselineskip}
+% \subsubsection{Additional info box}
+% \nopagebreak
 %
-% \parag{カスタマイズ}
+% \parag{Customization}
 %
 % \DescribeMacro{\ftoptboxcfg}
 % \DescribeMacro{\optboxcfg}
-% 付加情報\meta{additional info}を整形\jslash 配置した|\ft@optbox|を生
-% 成する際に使用する、
-% 人物名との距離、
-% 字下げ量、
-% font、
-% linestretch
-% をカスタマイズできる。
-%
-% 変更しないものには空を指定すれば良い。
-% \smallskip
 %
 %    \begin{macrocode}
 \newlength{\ft@optbox@vsp}
 \setlength{\ft@optbox@vsp}{.1\baselineskip}
 \newlength{\ft@optbox@indent}
-\setlength{\ft@optbox@indent}{1.1\ft@ch}
+\setlength{\ft@optbox@indent}{1.1\ft@unit}
 \newcommand{\ft@optbox@font}{\relsize{-1}}%{\footnotesize}
 \newcommand{\ft@optbox@linestretch}{.75}
 \newcommand{\ftoptboxcfg}[4]{% vsp indent font linestretch
@@ -360,7 +322,7 @@
 \ft@alias{optboxcfg}
 %    \end{macrocode}
 %
-% \parag{属性と付加情報の解析}
+% \parag{Parsing}
 %
 % \DescribeMacro{\ftmaleline}
 % \DescribeMacro{\maleline}
@@ -368,9 +330,6 @@
 % \DescribeMacro{\haschild}
 % \DescribeMacro{\ftprivate}
 % \DescribeMacro{\private}
-% 属性。
-% それぞれの意味は\refnm{table:attrib}を参照。
-% \smallskip
 %
 %    \begin{macrocode}
 \newcommand{\ftmaleline}{ft@attr0}
@@ -386,14 +345,14 @@
 \ft@alias{haschild}
 \ft@alias{private}
 %    \end{macrocode}
-% \smallskip
 %
 % \DescribeMacro{\ft@optlist}
-% \meta{option-list}に指定された付加情報\meta{additional info}から属性を取り出し、
-% \meta{box-name}を基にした名前のglobal flagを定義する。
-% 属性以外のものは後で印字するため、
-% 別リスト\meta{list}を生成する。
-% \smallskip
+%
+% Extracts the attributes from \meta{option-list} (which is
+% \meta{additional info} itself) and sets a global flag whose name is
+% generated using \meta{box-name}.
+% Other than the attributes are appended another list, \meta{list} which
+% will be printed later.
 %
 %    \begin{macrocode}
 \newcommand{\ft@optlist}[3]{% list box-name option-list
@@ -421,17 +380,9 @@
 }
 %    \end{macrocode}
 %
-% \parag{box生成}
+% \parag{Define a box}
 %
 % \DescribeMacro{\ft@opt}
-% 付加情報\meta{additional info}を整形\jslash 配置した|\ft@optbox|を生
-% 成する。
-%
-% 先頭には\meta{child-mark}分に加え、
-% 人物名からindentするための余白を挿入する。
-%
-% 最終行のdepthをboxのdepthとする。
-% \smallskip
 %
 %    \begin{macrocode}
 \newsavebox{\ft@optbox}
@@ -458,30 +409,21 @@
 %    \end{macrocode}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsubsection{人物名box}
+% \subsubsection{Name box}
 %
-% \parag{カスタマイズ}
+% \parag{Customization}
 %
 % \DescribeMacro{\ftnameboxcfg}
 % \DescribeMacro{\nameboxcfg}
-% 人物名に使用する、
-% 字下げ量、
-% font、
-% 人物名の後にmalelineを描く場合の人物名との距離、
-% および線の長さ
-% をカスタマイズできる。
-%
-% 変更しないものには空を指定すれば良い。
-% \smallskip
 %
 %    \begin{macrocode}
 \newlength{\ft@namebox@sp}
-\setlength{\ft@namebox@sp}{.25\ft@ch}
+\setlength{\ft@namebox@sp}{.25\ft@unit}
 \newcommand{\ft@namebox@font}{}% empty
 \newlength{\ft@namebox@maleline@sp}
-\setlength{\ft@namebox@maleline@sp}{.25\ft@ch}
+\setlength{\ft@namebox@maleline@sp}{.25\ft@unit}
 \newlength{\ft@namebox@maleline@length}
-\setlength{\ft@namebox@maleline@length}{1.5\ft@ch}
+\setlength{\ft@namebox@maleline@length}{1.5\ft@unit}
 \newcommand{\ftnameboxcfg}[4]{% sp font maleline-sp maleline-length
   \ifx#1\empty\else%
     \setlength{\ft@namebox@sp}{#1}%
@@ -499,33 +441,28 @@
 \ft@alias{nameboxcfg}
 %    \end{macrocode}
 %
-% \parag{box生成}
+% \parag{Define a box}
 %
 % \DescribeMacro{\ft@name}
-% 人物名を整形\jslash 配置した|\@ft@namebox|を生成する。
 %
-% 中身は|\ft@cmarkbox|、\meta{individual-name}、
-% |\ft@malelinebox|を並べたもの。
+% Internally layouts |\ft@cmarkbox|, \meta{individual-name}, and
+% |\ft@malelinebox|.
+% It was difficult to set the length of |maleline|, ie. where to begin the
+% line. Which is better for the head of |maleline|, at the box end of the
+% \meta{individual-name} or at the box end including all the
+% \meta{title}, \meta{individual-name} and \meta{additional info}?
 %
-% malelineを描く場合、defaultのlength、というか線の始点をどう決定するか
-% を仲々決められなかった。
-% 始点を単に人物名の後ろとするか、それとも肩書きと付加情報も含め、一
-% 番大きなboxの後ろを始点とするか。後者にすると人物box単独での見た目は良
-% くなる。すなわち常にmalelineを一番長くさせられる。しかし、後述する他の
-% 兄弟姉妹boxなどと並べる時に、線をどれだけ延ばせば他のboxと揃えられるか
-% を算出するのに手間がかかるようになる。
-% この点は前者の方に分があり、単に人物名のsizeの差だけを増
-% 加させれば揃えられる。
-% 試行錯誤の後、始点は前者とし、default lengthは
-% |\ft@namebox@maleline@length|とする。
-% すなわち、人物boxを単独で用いる場合、肩書きや追加情報の方がmalelineよ
-% りも長くなることがあり得る。
+% The latter looks good, especially when the defined individual box is
+% used alone. But it makes hard for other box definitions to calculate the
+% extra line length to align equal.
+% For such calculation, the former is better since it just has to calculate
+% the difference of the length of names.
+% Finally, I decided to start the line at the end of
+% \meta{individual-name}, and the default length is
+% |\ft@namebox@maleline@length|.
 %
-% 後で兄弟姉妹\jslash 親子\jslash 婚姻関係作成時に座標として利用できるよう、
-% \meta{box name}|nameX|、\meta{box name}|nameCX|を定義する。
-%
-% 人物boxのdepthは人物名のそれに一致させる。
-% \smallskip
+% In other words, it can happen when an individual box is used alone, the
+% \meta{title} or the \meta{additional info} may be longer than |maleline|.
 %
 %    \begin{macrocode}
 \newif\ifft@maleline
@@ -567,25 +504,17 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \needspace{2\baselineskip}
-% \subsubsection{肩書きbox}
+% \subsubsection{Title box}
 %
-% \parag{カスタマイズ}
+% \parag{Customization}
 %
 % \hyphenation{line-stretch}
 % \DescribeMacro{\fttitleboxcfg}
 % \DescribeMacro{\titleboxcfg}
-% 肩書きを配置した|\ft@titlebox|を生成する際に使用する
-% 字下げ量、
-% font、
-% linestretch、
-% 人物名との距離をカスタマイズできる。
-%
-% 変更しないものには空を指定すれば良い。
-% \smallskip
 %
 %    \begin{macrocode}
 \newlength{\ft@titlebox@indent}
-\setlength{\ft@titlebox@indent}{-.25\ft@ch}
+\setlength{\ft@titlebox@indent}{-.25\ft@unit}
 \newcommand{\ft@titlebox@font}{\relsize{-2}}%{\scriptsize}
 \newcommand{\ft@titlebox@linestretch}{.25}
 \newlength{\ft@titlebox@vsp}
@@ -607,11 +536,9 @@
 \ft@alias{titleboxcfg}
 %    \end{macrocode}
 %
-% \parag{box生成}
+% \parag{Define a box}
 %
 % \DescribeMacro{\ft@title}
-% 肩書きを整形\jslash 配置した|\ft@titlebox|を生成する。
-% \smallskip
 %
 %    \begin{macrocode}
 \newsavebox{\ft@titlebox}
@@ -638,22 +565,9 @@
 %    \end{macrocode}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsubsection{boxの連結 --- core}
+% \subsubsection{Combine the boxes --- core}
 %
-% 指定された情報を基に、
-% 肩書き（|\ft@titlebox|）、人物名（|\ft@namebox|）、付加情報
-% （|\ft@optbox|）それぞれを作成する。
-% それらを並べ人物boxを生成する。
-% boxのdepthは最終行のそれに一致させる。
-%
-% 後で兄弟姉妹\jslash 婚姻\jslash 親子関係作成時に座標として利用できるよう、
-% \meta{box name}|nameCY|を定義する。
-%
-% 各boxの生成、人物boxのsize算出、|picture|によるlayoutの三段階を踏む。
-% それぞれを独立させ定義するが、\IhadtoSplit
-% \smallskip
-%
-% \parag{各boxの生成}
+% \parag{Generate the boxes}
 %
 % \DescribeMacro{\ft@indvdlbox@gen}
 % \NoDescription
@@ -677,7 +591,7 @@
 }
 %    \end{macrocode}
 %
-% \parag{人物boxのsize算出}
+% \parag{Calculate the size of a name box}
 %
 % \DescribeMacro{\ft@indvdlbox@calc}
 % \NoDescription
@@ -726,7 +640,7 @@
 }
 %    \end{macrocode}
 %
-% \parag{\texttt{picture}によるlayout}
+% \parag{Layout them by \texttt{picture}}
 %
 % \DescribeMacro{\ft@indvdlbox@layout}
 % \NoDescription
@@ -758,7 +672,7 @@
 }
 %    \end{macrocode}
 %
-% \parag{box連結のmain}
+% \parag{Main function to combine the boxes}
 %
 % \DescribeMacro{\ft@indvdlbox}
 % \NoDescription
@@ -777,34 +691,10 @@
 %    \end{macrocode}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsubsection{人物box --- interface}
+% \subsubsection{Individual box --- interface}
 %
 % \DescribeMacro{\ftindvdldef}
 % \DescribeMacro{\indvdldef}
-% 指定された情報に従い、
-% \meta{box name}という名前のboxを生成する。
-%
-% \meta{individula name}だけの高さ|\ft@indvdl@nameH|を求め、
-% 更にdepthも考慮した中点を|\ft@indvdl@nameCY|に定義し、
-% 以降の接続点の座標算出に用いる。
-%
-% \meta{child mark}は人物boxの先頭に置き、
-% 全ての行はlayout的にその存在を意識する必要があるため、
-% 他の項目よりも先に決定し、
-% |\ft@cmarkbox|、
-% およびその幅を表す|\ft@cmarkW|を定義する。
-%
-% \meta{cmark}が|\ftblank|以外の場合は、
-% child-markが存在することを表すglobal flagを
-% \meta{containerbox-name}に指定された名前を基に定義する。
-%
-% |\ft@optlst|により\meta{additional info}を解析し、
-% 属性を除いたものを|\ft@indvdl@opts|にまとめる。
-% 同時に|\ifft@maleline|を設定し、
-% 属性に|\maleline|が指定されているか否かを以降判断できるようにする。
-%
-% ここまでの前処理を済ませた後|\ft@indvdlbox|により人物名boxを生成する。
-% \smallskip
 %
 %    \begin{macrocode}
 % [child-mark] box-name [title] individual-name

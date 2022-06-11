@@ -1,5 +1,4 @@
-%
-% \section{婚姻関係 (\texttt{marriage.dtx})}
+% \section{Marriage Box (\texttt{marriage.dtx})}
 %
 % \DescribeMacro{\mrrgdef}
 % \cmd{\mrrgdef
@@ -11,57 +10,49 @@
 % }
 % \medskip
 %
-% 指定された\meta{new box name}でboxを定義する。
-% 再婚や側室などにも対応するべく、配偶者はlist形式で指定する。
-% |\indvdldef|で定義したboxの名前をカンマ区切りのlistとして与える。
-% \meta{spouse list A}は本人（\meta{oneself}）の上側（縦書きならば右）に、
-% \meta{spouse list B}は本人（\meta{oneself}）の下側（縦書きならば左）に、
-% それぞれ配置する。
-% いづれも\CS ではない点に注意
-% （冒頭に\textbackslash を含まない）。
+% Defines a marriage box with a specified name \meta{new box name}.
+% To support remarrying and the concubines, the spouses are specified by
+% a list. The element of the list is a box name defined by |\indvdldef|.
+% \meta{spouse list A} is placed upper side of \meta{oneself}, and
+% \meta{spouse list B} is lower side.
+% All box names are NOT \CS{} (no backslash).
 % \smallskip
 %
-% 全員を同列に並べ、正式な婚姻関係は二重実線で、正式でなければ
-% （|\private|属性）
-% 二重点線で結ぶ。
-% 二重線の位置は\meta{oneself}の人物名の中点とする。
+% Aligns them in the same column, and connects them by a double line if the
+% marriage is official. If the marriage is not official (|\private|
+% attribute), uses a dashed double line.
+% Those double line is placed at the center of the length of the name of
+% \meta{oneself}.
 % \smallskip
 %
-% 子をもうけた夫婦
-% （配偶者が|\haschild|属性を持つ）
-% 間の二重線からは子をつなぐ線を描く。
+% If a spouse has a child (|\haschild| attribute),
+% then the line to their child is drawn from the center of the
+% double line.
 % \smallskip
 %
-% |\sblngdef|同様に間隔を空ける場合はinterval boxを挿入できる。
-% \medskip
+% Like |\sblngdef|, the interval box can be inserted if you want more
+% spaces.
+% \bigskip
 %
-% |\indvdldef|同様に、後で使用する座標（単位は|pt|）を表す\CS も定義する。
-% 座標の原点はそれぞれ、
-% 横書きの場合はbox左下、
-% 縦書きの場合はbox左上である。
+% Like |\indvdldef|, some connection points are defined. Their origin
+% is left-bottom of the box and the unit is |pt|.
 %
-% \begin{longtable}{lp{.5\textwidth}}
-% \meta{box name}|nameCY| &
-% 婚姻関係box内での本人（\meta{oneself}）の人物名の高さの中央
-% （縦書きならば幅の中央）
-% \\
+% \begin{itemize}
+% \item \meta{box name}|nameCY|
 %
-% \meta{box name}\meta{\kern0pt 人物box name}|nameCY| &
-% 婚姻関係box内でのcmarkを持つ人物名の高さの中央
-% \\
+% the center of the height of the name of \meta{oneself}
 %
-% \meta{box name}\meta{\kern0pt 人物box name}|mrrgCY| &
-% 婚姻関係box内での|\haschild|属性を持つ人物名と婚姻線との中点
-% \end{longtable}
+% \item \meta{box name}\meta{individual box name}|nameCY|
+%
+% the center of the height of the name of who has any child-mark
+%
+% \item \meta{box name}\meta{individual box name}|mrrgCY|
+%
+% the center of the double line when any spouse has |\haschild| attribute
+% \end{itemize}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsection{カスタマイズ}
-%
-% 配置を調整する機能もある。
-% 変更しないものには空を指定すれば良い。
-% 大したことはしていないので必要に応じ参照\jslash 使用する程度で良い。
-% 引数等詳細は実装を参照のこと。
-% \medskip
+% \subsection{Customization}
 %
 % \DescribeMacro{\mrrgboxcfg}
 % \cmd{\mrrgboxcfg
@@ -72,110 +63,93 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \clearpage
-% \subsection{例}
+% \subsection{Example}
 %
 % \begin{enumerate}
 % \item
-% \srcfig[scale=.85]{fig4Hidetada}
-% \clearpage
+% \srcfig{fig4Robert}
 %
+% \clearpage
 % \item
-% \srcfig[scale=.95]{fig4Ogou}
+% \srcfig{fig4HenryVIII}
 % \end{enumerate}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsection{同世代内の配置と結線}
+% \subsection{Layout and connecting in a same generation}
 %
-% 一つの\FamilyTree になんでもかんでも詰め込むのは無理がある。
+% It is not a good idea to put everything in a single family tree.
 %
-% 例えば夫婦がともに再婚していた場合、全員を同列に並べては見にく
-% くなるばかりだ。先に挙げた二つの図は秀忠夫婦を表すと言えば同じになって
-% しまうが、観点を秀忠にするかお江にするかで随分違う図になる。この二つの
-% 図を合体させるのはまず無理と
-% 思う。人物を減らすか、夫婦それぞれを主人公にした図の二つに分けるしかない。
-% それでも自身の先祖や子孫が配偶者側の先祖\jslash 子孫と関係を
-% 持つ場合があれば、更に分割せざるを得ないだろう。
+% For example, see King Henry VIII and his wives. Catherine of Aragon,
+% his first wife was actually a wife of Henry's brother, Arthur. If we
+% put King's siblings to this tree, how would it be looked? It's just
+% ugly and hard to understand in a glance. Let's think more using an
+% example from \refnm{sec:Lily1} again.
 %
-% 兄弟姉妹関係と婚姻関係を同時に表現する場合も同様だ。
-% 同世代内で線が入り乱れると図が見にくくなってしまう。
-% \refnm{sec:Lily1}の例を再利用し考えてみる。
+% How can we represent the Petunia -- Lily sisters tree including their husbands.
+% As a first step, define two marriage boxes, and then define the
+% sibling box.
+% \medskip
 %
-% Petunia -- Lily姉妹がそれぞれ結婚した場合、姉妹関係と婚姻関係を同時に、
-% かつ綺麗に表現できるだろうか。
+% \srcfig{fig4Lily1}
+% \medskip
 %
-% まず二組の夫婦を定義し、後に姉妹関係を定義する。
-% \bigskip
-%
-% \srcfig{fig4Lily1Y}
-% \bigskip
-%
-% 夫婦単位で見れば問題はないかもしれないが、姉妹関係を結ぶと見づらい図となってし
-% まう。原因になりうる点は次の三つだろう。
-% \begin{spacing}{.5}
+% Why is this tree so ugly? There are three points to consider.
 % \begin{enumerate}
-% \item 婚姻関係を表す二重線の位置が揃っていない。
-% \item 子をつなぐ線の長さも異なっており、この状態で子をつなぐと見づらさに
-%   拍車がかかる。
-% \item JamesがPetuniaとLilyの間に割り込んでおり、姉妹関係を見づらくして
-% いる。
+% \item The position of two double lines differ from each other.
+% \item The length of a line to their child differs too.  If we connected
+% the child, the ugliness would be improved.
+% \item James interrupts into between Petunia and Lily. It makes the
+% understandability worse.
 % \end{enumerate}
-% \end{spacing}
 %
-% 一点目の二重線の位置を揃えれば、二点目の線長不揃いも自動的に解消される。
-% これには\refnm{sec:Lily1}でも紹介した、Lily boxの幅をPetunia boxのそれ
-% に揃える方法が使える。
-% 三点目のJamesの位置だが、まずは間隔を拡げてみる。
-% \bigskip
-%
-% \srcfig{fig4Lily2Y}
+% On fixing the first point, the position of the double line, the second
+% point will be fixed automatically.
+% The solution is the one already suggested in \refnm{sec:Lily1}, set
+% the width of Lily box to Petunia's.
+% For the third point, the position of James, how about expanding the
+% space as a first step?
 % \medskip
 %
-% 間隔を拡げても姉妹線がJamesを跨いでいることは変わらない。見づらさは改
-% 善されただろうか？
-% 更に改善するにはJamesとLilyの順序を入れ替えるしかない。
-% \bigskip
-%
-% \srcfig{fig4Lily3Y}
+% \srcfig{fig4Lily2}
 % \medskip
 %
-% 入れ替えた上で間隔を拡げるのも一つの手だ。
-% \bigskip
-%
-% \srcfig{fig4Lily4Y}
+% Even spreading the space wider, James is still interrupting those two
+% sisters. Does it look better?
+% If we want more, the last way is to switch the position of James and Lily.
 % \medskip
 %
-% これがbestだろうか？
-% 見やすさ\jslash 見にくさは主観や好みが強く出る所だ。
-% 個人的には夫婦の順序が変わっている点に抵抗を覚える。だが、姉妹に観点を
-% 置いた\FamilyTree ならば、この形も有りだと認めざるを得ない。系図内の他
-% の部分とのバランスもあるので、最終的には総合的に判断するものだろう。
-% 婚姻関係を含めない\Matrilineal 図も積極的に検討したい。
+% \srcfig{fig4Lily3}
+% \medskip
+%
+% Moreover spreading the blank is a good option.
+% \medskip
+%
+% \srcfig{fig4Lily4}
+% \medskip
+%
+% Is this best looking?
+% The easiness of looking is subject to one's opinion or taste.
+% Personally I feel resistance in the order of husband and wife. But also I
+% admit that as long as the main purpose of this tree is to represent those
+% sisters, this position of James is not bad.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsectImpl
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% \parag{カスタマイズ}
+% \parag{Customization}
 %
 % \DescribeMacro{\ftmrrgboxcfg}
 % \DescribeMacro{\mrrgboxcfg}
-% 婚姻boxを生成する際に使用する
-% 二重線の間隔、
-% 二重線と人物名との距離、
-% 二重線の長さ
-% をカスタマイズできる。
-%
-% 変更しないものには空を指定すれば良い。
-% \smallskip
 %
 %    \begin{macrocode}
 \newlength{\ft@mrrgline@sep}
 \setlength{\ft@mrrgline@sep}{4pt}
 \newlength{\ft@mrrgline@sp}
-\setlength{\ft@mrrgline@sp}{.25\ft@ch}
+\setlength{\ft@mrrgline@sp}{.5\ft@unit}
 \newlength{\ft@mrrgline@length}
-\setlength{\ft@mrrgline@length}{1.5\ft@ch}
+\setlength{\ft@mrrgline@length}{1.5\ft@unit}
 \newcommand{\ftmrrgboxcfg}[3]{% sep space length
   \ifx#1\empty\else%
     \setlength{\ft@mrrgline@sep}{#1}%
@@ -190,14 +164,7 @@
 \ft@alias{mrrgboxcfg}
 %    \end{macrocode}
 %
-% \parag{解析}
-%
-% \DescribeMacro{\ft@mrrg@parse}
-% 引数を解析し、婚姻boxのsizeを算出する。
-%
-% 子につながる線を描く場合、一番長いものに
-% |\ft@namebox@maleline@length|を加えた長さに揃える。
-% \smallskip
+% \parag{Parsing}
 %
 %    \begin{macrocode}
 \newcommand{\ft@mrrg@parse}[1]{% spouse-list
@@ -239,15 +206,9 @@
 }
 %    \end{macrocode}
 %
-% \parag{婚姻関係線の描画}
+% \parag{The double line}
 %
 % \DescribeMacro{\ft@mrrg@line}
-% 本人と配偶者を二重線でつなぐ。
-%
-% 配偶者が|\haschild|属性を持っていれば、二重線の中点から子へつなぐため
-% の線も描き、その座標を\meta{box name}\meta{\kern0pt 人物box name}|mrrgCY|に定
-% 義する。
-% \smallskip
 %
 %    \begin{macrocode}
 \newlength{\ft@mrrg@chlen}
@@ -286,12 +247,9 @@
 }
 %    \end{macrocode}
 %
-% \parag{人物名の配置}
+% \parag{Layout the names}
 %
 % \DescribeMacro{\ft@mrrg@name}
-% child mark属性を持つ人物boxの場合は、\meta{box name}\meta{\kern0pt 人物box
-%   name}|nameCY|を定義する。
-% \smallskip
 %
 %    \begin{macrocode}
 \newcommand{\ft@mrrg@name}[2]{% box-name individual-name
@@ -320,11 +278,9 @@
 }
 %    \end{macrocode}
 %
-% \subsubsection{人物boxの配置と結線 --- core}
+% \subsubsection{Layout and connect the individuals --- core}
 %
 % \DescribeMacro{\ft@mrrg@spouse}
-% 配偶者list内の要素それぞれを配置し、婚姻関係線を描く。
-% \smallskip
 %
 %    \begin{macrocode}
 \newlength{\ft@mrrg@ival}
@@ -352,14 +308,10 @@
 }
 %    \end{macrocode}
 %
-% \subsubsection{婚姻box --- interface}
+% \subsubsection{Marriage box --- interface}
 %
 % \DescribeMacro{\ftmrrgdef}
 % \DescribeMacro{\mrrgdef}
-% 配置したbox内での本人（\meta{oneself}）の|nameCY|を、\meta{box name}|nameCY|と
-% して定義する。同様に本人の|hascmark|をそのまま\meta{box
-% name}|hascmark|とする。
-% \smallskip
 %
 %    \begin{macrocode}
 \NewDocumentCommand{\ftmrrgdef}{mmmmO{0pt}}{%

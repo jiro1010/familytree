@@ -1,8 +1,7 @@
+% \section{Library (\texttt{lib.dtx})}
 %
-% \section{library (\texttt{lib.dtx})}
-%
-% 説明の最後ではあるが、
-% 本章は|sty|内では先頭に位置する。
+% While this is the last section of this document, |lib.dtx| is located
+% top of |sty|.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsectImpl
@@ -13,32 +12,28 @@
 \RequirePackage{relsize}
 \RequirePackage{xparse}
 %    \end{macrocode}
-% \smallskip
 %
-% \DescribeMacro{\if@ch}
-% 一文字の横幅を表す（日英対応）。
-% \smallskip
+% \DescribeMacro{\ft@unit}
+% Represents a width of a single character.
 %
 % \DescribeMacro{\if@tate}
-% |\if@tate|が定義されていないdocumentclassに対応する。
-% 効果は未確認。
+% Supports Japanese vertical mode (|jlreq.cls|). Other than Japanese, this
+% dummy |\if@tate| is always false.
 % \medskip
 %
 %    \begin{macrocode}
-\global\newlength{\ft@ch}%
+\global\newlength{\ft@unit}%
 \@ifundefined{if@tate}{%
   \global\newif\if@tate%
-  \global\ft@ch=1em%
+  \global\ft@unit=1em%
 }{
-  \global\ft@ch=1zw%
+  \global\ft@unit=1zw%
 }%
 %    \end{macrocode}
-% \smallskip
 %
 % \DescribeMacro{\ft@alias}
-% prefix |ft|を除外したaliasを定義する。名前が使えなければ諦めて
-% |message|する。
-% なんでこんなに沢山|\expandafter|が必要になるのか理解できていない。
+% Makes an alias with prefix-less (|ft|).
+% I don't know why such many |\expandafter|s are necessary.
 % \medskip
 %
 %    \begin{macrocode}
@@ -63,10 +58,9 @@
 %   \oarg{month}
 %   \oarg{date}
 % }
-% \medskip
 %
-% 年月日を整形、印字する。縦書きにも対応している。
-% |\indvdldef|の付加情報での利用を想定している。
+% Arranges and prints year-month-date. Japanese vertical mode is supported.
+% Assumes to be used in \meta{additional info} of |\indvdldef|.
 % \medskip
 %
 %    \begin{macrocode}
@@ -84,14 +78,15 @@
 \ft@alias{ymd}
 %    \end{macrocode}
 %
+% \noindent
 % \DescribeMacro{\ftundef}
 % \cmd{\ftundef
 %   \marg{box name}
 % }
 %
-% 名前に\meta{box name}を持つものを全て未定義とする。
-% prefix |ft|なしのaliasは設けない。
-% \smallskip
+% Undefines all internal \CS es who has \meta{box name} in its name.
+% For this macro, we don't define the prefix-less alias.
+% \medskip
 %
 %    \begin{macrocode}
 \newcommand{\ftundef}[1]{%
@@ -232,15 +227,4 @@
     \end{picture}%
   \fi%
 }
-%    \end{macrocode}
-%
-% \subsubsection{単純文字列}
-%
-%    \begin{macrocode}
-\newcommand{\FamilyTree}{家系図}
-\newcommand{\Patrilineal}{父系}
-\newcommand{\Matrilineal}{母系}
-\newcommand{\MaleLine}{男系}
-\newcommand{\FemaleLine}{女系}
-\newcommand{\InheritanceDiagram}{相続関係説明図}
 %    \end{macrocode}

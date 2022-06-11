@@ -1,10 +1,8 @@
-%
-% \section{親子関係、二世代 (\texttt{gens.dtx})}
+% \newcommand{\tOne}{Parent-child Relationship Box or Generations Box}
+% \newcommand{\tTwo}{(\texttt{gens.dtx})}
+% \section[\tOne{} \tTwo]{\tOne\\\tTwo}
 %
 % \DescribeMacro{\pcdef}
-% 親子関係（parent-child relationship）を定義する。
-% \smallskip
-%
 % \cmd{\pcdef
 %   \marg{new box name}
 %   \marg{parent box name}
@@ -12,230 +10,152 @@
 % }
 % \medskip
 %
-% 指定された\meta{parent box}と\meta{child box}を結線した新たなboxを
-% \meta{new box name}で定義する。
+% Defines a parent-child relationship box.
+% Connects the given \meta{parent box} and \meta{child box} by a line,
+% and creates a new box \meta{new box name}.
 %
-% \meta{parent box}に指定できるのは、子へつながる線が一本だけのboxに限ら
-% れる。例えば、|\maleline|（相当）の属性を与え
-% |\indvdldef|で作成したboxである。
-% また\meta{child box}に指定できるのは親へつながる線を持つboxに限られる。
-% 例えば、child markに|\biological|を指定した|\indvdldef|で作成したboxである。
+% \meta{parent box} is a box who has only one line from an individual
+% name to one's child. For example, the box created by |\indvdldef| with
+% |\maleline| attribute (and equivalent) is specified.
+% Obviously, \meta{child box} is a box who has a line to one's parent.
+% For example, the box created by |\indvdldef| with |\biological| or
+% |\adopted| is specified as a child mark.
 %
-% |\pcdef|は次に挙げる|\gensdef|の簡易版である。
+% |\pcdef| is a simplified version of |\gensdef|, which is discussed next.
 % \bigskip
 %
+% \noindent
 % \DescribeMacro{\gensdef}
-% 二世代の関係（generations）を定義する。
-% \smallskip
-%
 % \cmd{\gensdef
 %   \marg{new box name}
 %   \marg{parent box name}
 %   \marg{list of connection-pair}
 % }
+%
+% \begin{tabbing}
+% \hspace{4em} \=\kill
+% \texttt{connection-pair :=}\\
+% \> \marg{individual box name in the parent box}\\
+% \> \marg{child box name}
+% \end{tabbing}
 % \medskip
 %
-% \cmd{connection-pair :=\\
-% \hspace{4em}\marg{individual box name in the parent box}\\
-% \hspace{4em}\marg{child box name}
-% }
-% \bigskip
-%
-% \meta{connection-pair}とは、以下のものを組にしたものである。
-% \begin{spacing}{.5}
-% \begin{enumerate}
-% \item
-%   \marg{parant box}内の人物box名
-% \item
-%   \marg{child box}名
-% \end{enumerate}
-% \end{spacing}
-%
-% この二つのboxの\meta{box name}|nameCY|同士を結線する。
-% \smallskip
-%
-% \meta{child box}には、前述の|\pcdef|同様に、親へつながる線を（一本）持
-% つboxしか指定できないが、\meta{parent box}には子へつながる線を複数
-% 持つものでも指定できる。どの線とどの\meta{child box}をつなぐかを指定す
-% るのが\meta{connection-pair}である。
-%
-% 作成したboxのchild markは親boxのそれに一致する。
+% Defines a two-generations box.
+% Same to |\pcdef|, \meta{child box} is a box who has only one line to
+% the parent, but \meta{parent box} can have multiple lines to one's child.
+% It is \meta{connection-pair} that makes it clear which parent connects
+% to which child box.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \clearpage
-% \subsection{例}
+% \subsection{Example}
 %
 % \begin{enumerate}
 % \item
-% \srcfig[scale=.9]{fig3Hidetada}
+% |\sblngdef| for daughters, |\pcdef|, and then |\sblngdef| for their
+% parent generation.
+% \srcfig{fig3Robert1}
 %
-% \clearpage
+% \needspace{2\baselineskip}
 % \item
-% \srcfig[scale=.75]{fig3Ietsuna}
-%
-% \clearpage
-% \item
-% 上例二つをつなぐ手順を紹介しておく。
-% \begin{enumerate}
-% \item
-% 子から順に先祖を辿りながら定義する。すなわち、上例2の後に1を定義する。
-%
-% \item
-% 上例2に変更は不要である。
-%
-% \item
-% 上例1の
-%
-% \begin{lstlisting}[gobble=2,xleftmargin=1em]
-% \pcdef{秀忠親子}{秀忠}{秀忠の子}
-% \end{lstlisting}
-%
-% を
-%
-% \begin{lstlisting}[gobble=2,xleftmargin=1em]
-% \gensdef{家光家綱}{秀忠の子}{%
-%   {家光}{家綱綱吉}%
-% }
-% \pcdef{秀忠家光}{秀忠}{家光家綱}
-% \end{lstlisting}
-%
-% へ変更する。
-%
-% すなわち
-% \textgt{\texttt{\textbackslash\kern0pt 秀忠の子}}box
-% 内の人物box
-% \textgt{\texttt{\textbackslash\kern0pt 家光}}
-% と、上例2で定義済みの
-% \textgt{\texttt{\textbackslash\kern0pt 家綱綱吉}}box
-% をつなぎ、これを
-% \textgt{\texttt{\textbackslash\kern0pt 家光家綱}}box
-% とする。
-%
-% \textgt{\texttt{\textbackslash\kern0pt 秀忠}}box
-% と親子関係を結ぶのはこの
-% \textgt{\texttt{\textbackslash\kern0pt 家光家綱}}box
-% である。
-%
-% \item
-% 新たに定義した
-% \textgt{\texttt{\textbackslash\kern0pt 秀忠家光}}
-% を描画する。
+% two |\sblngdef|, and then |\gensdef|. The result is essentially same.
+% One difference is the space between the siblings which was
+% automatically adjusted in previous example.
+% \srcfig{fig3Robert2}
 % \end{enumerate}
-%
-% 紙面の都合上、横書きの結果のみ提示する。
-% \end{enumerate}
-% \smallskip
-%
-% \noindent\includegraphics[scale=.75]{fig3IemitsuY.pdf}
-% \medskip
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsection{複数boxの定義、結線順序}
+% \subsection{The order of connecting multiple boxes}
 % \label{sec:Lily1}
 %
-% 兄弟姉妹boxとは複数の人物boxを同列に並べるものととらえるならば、
-% それと直交する方向に並べるのが親子boxだ。
-% 同列に並んだ兄弟姉妹それぞれが子を持つならば、親子関係が複数になるので
-% 単純に親子関係ボックスとは呼びづらく、二世代boxと呼ぶ方がふさわしい。
+% If we get |\sblngdef| as a tool to align the individual boxes in
+% column, then |\pcdef| and |\gensdef| are the tool to align the boxes
+% in row.
+% When the siblings have their child for each, then there are multiple
+% parent-child relationships, so it is better to call it generations box
+% rather than parent-child box.
 %
-% このような図の作成方法は二通り考えられる。親子関係を複数定義し、親同士を
-% 兄弟姉妹boxでつなぐ方法と、逆に親世代の兄弟姉妹boxを先に定義してから、それぞ
-% れに子をつなぐ方法だ。
+% There are two ways to draw such tree. One is to define parent-child
+% first and then define the siblings of the parent generation. The other
+% is in the reverse order, eg. to define the siblings of the parent
+% generation first and then define the parent-child relationship for each.
 %
-% 親子関係を定義する|\pcdef|と、世代関係を定義する|\gensdef|が既に利用可能
-% と仮定し、図の見やすさを考える。まず例を図示する。
+% Let's consider about these two ways.
 %
 % \begin{enumerate}
 % \needspace{2\baselineskip}
 % \item
-% 二組の親子関係を定義後、親世代の姉妹関係を定義する。
+% define two parent-child relationships, and then define the siblings.
 %
-% \srcfig{fig3Lily1Y}
+% \srcfig{fig3Lily1}
 %
 % \needspace{3\baselineskip}
 % \item
-% 姉妹関係を定義後、それぞれの親子関係を定義する。
+% define the sisters, and then define the parent-child for each.
 %
-% \srcfig{fig3Lily2Y}
+% \srcfig{fig3Lily2}
 % \end{enumerate}
 %
-% 見て分かる通り、1の方法では子をつなぐ線の長さが異なり、更に子世代の位
-% 置も揃わなくなるため、見にくい図となる。
-% これは子へつながる線はもっとも長いものに揃えるという|\sblngdef|の
-% 機能が働かなかったためだ。|\sblngdef|の引数に渡された時点で既に
-% 親子関係が定義されている状態であり、線の先には人物boxがつながれている。
-% この状態で|\sblngdef|が強引に線を延ばすのはよろしくない。
+% As you see, by the 1st method the length of two lines to their child
+% differs and the positions (in horizontal) of the child generation are
+% not equal. That makes the tree uneasy to understand straightforward.
+% It is because that the feature of |\sblngdef| to set the line length
+% to the longest one didn't work.
+% The argument passed to |\sblngdef| were already connected to the child,
+% so if |\sblngdef| extended the line it would be much worse result.
 %
-% 一方、2の方法では|\sblngdef|の引数は|\indvdldef|されただけで他にはつながれていない
-% boxである。このため、上から長い線を描き足しても害は無い。既定義boxを改変
-% しないまま、兄弟姉妹boxに閉じた範囲で同じ高さに線を上書きしている。
-%
-% 1の方法を採った場合でも線の長さを揃える方法はある。
-% |\indvdldef|が持つ線長の増減機能を利用し、
-% 上図のLilyが持つ|\femaleline|（|\matrilineal|）の長さをPetuniaのそれと同
-% じにすれば良い。
-% PetuniaとLilyの名前の長さの差を求め、それを|\indvdldef|にオプションとし
-% て追加する。
-% 描画結果は上例2と同じである。
+% On the other hand, by the 2nd method, the argument passed to
+% |\sblngdef| were not connected to the child. So it is harmless if
+% |\sblngdef| extends the line.
 % \smallskip
 %
-% \srcfig{fig3Lily3Y}
+% Even if you took the 1st method, there still exists to make the line
+% length equal.
+% Using |\indvdldef| feature to adjust the line length, set the length
+% of Lily's |\femaleline| (|\matrilineal|) to the one of Petunia's.
+% To achieve this, calculate the difference of the name length of these
+% sisters and give an optional argument of |\indvdldef|.
+% The result should be same to above.
 % \medskip
 %
-% |\nameboxcfg|には子をつなぐ線の長さを変更する機能があるので、これを使っ
-% ても同様の結果を得ることができる。しかし、|\indvdldef|する度に
-% |\nameboxcfg|するのは得策ではないだろう。|\nameboxcfg|はもっと広範囲に
-% 適用する値を変更し、個別設定の回数を削減することを目的としており、
-% |\indvdldef|の度に変更することは想定していない（できなくはないが）。
-% 個別に使用する値は|\indvdldef|のオプション引数を使用した方が簡便だろう。
-% \bigskip
+% \srcfig{fig3Lily3}
+% \medskip
 %
-% もう一つの方法としてLilyの名前の長さをPetuniaのそれに揃える方法もある。
-% この方法ではLilyの名前と線の間が空き、線の長さが揃う。
+% You can get the same result if you use |\nameboxcfg| since it has a
+% feature to set the length of a line to child.
+% But it is not a good idea to use |\nameboxcfg| every time when you
+% |\indvdldef|. The value set by |\nameboxcfg| should be applied wider,
+% and it is not supposed to use for a single |\indvdldef|. It is better
+% to append an optional argument to |\indvdldef|.
 % \smallskip
 %
-% \srcfig{fig3Lily4Y}
+% There is one more option. It is to set the length of Lily's name to Petunia's.
+% By this method, the space between Lily's name and the line to child
+% becomes wider and the length of lines become equal.
 % \medskip
 %
-% Lilyの親子boxをPetunia親子boxとは違う場面で使用すると、名前の後ろが不
-% 自然に空きおかしく見えることもあるかもしれない。その場合は、空き具合
-% を変化させたLily boxを複数定義し使い分けることになるだろう。
-% \bigskip
+% \srcfig{fig3Lily4}
+% \medskip
 %
-% boxの定義順序、言い換えれば配置\jslash 結線順序には注意が必要だ。
-% 本パッケージでのbox定義とは与えられた複数のboxを並べ線でつなぐものだが、
-% その際に与えられたboxの大きさを考慮する。例えば兄弟姉妹boxを定義する際、
-% 既に子孫とつないだboxを与え、そのboxの幅（または高さ）が増加していれば、
-% 兄弟姉妹の間隔を拡げる。すなわちinterval boxによる間隔挿入が必要になるのは末端の関係定義だ
-% けになる。しかし、兄弟姉妹boxを定義した後で子とつなげる場合は、この
-% 間隔調整機能が発揮されない。隣合う子boxの幅（または高さ）が広ければ、
-% 重なってしまうだろう。この場合は手動でinterval boxを挿入せざるを得ない。
-%
-% 接続ポイントは\meta{box name}\meta{brabra}|nameCY|などの名前で定義された座標で
-% ある。前章までで説明したように|\sblngdef|は兄弟姉妹それぞれの名前の中
-% 心を表すY座標を定義するが、nestした場合にnest内部までは定義しない。す
-% なわち親子boxに配置された人物boxへ線をつなげるのは（ほぼ）自動的にでき
-% るが、親子box内の兄弟姉妹boxに配置された人物boxへ線をつなげるには、ユー
-% ザが自分で座標を算出しなければならない。不可能ではないが、手間はかかる。
-% この手間を回避するため、世代は下から順に定義\jslash 結線していくのが良いと考える。
-% \iffalse
-% \bigskip
-%
-% 最終的に、
-% ユーザがどのような図を欲するにより、どの順序でboxを定義し、つなげるか、
-% また調整をどう加えるかを決定するのが良い。
-% \fi
+% The sequence or the order to define and connect the boxes is important.
+% In connecting the boxes, this package considers the size of the
+% being connected individual boxes. For example, the sibling box
+% considers the height of the
+% individual box and makes the boxes to be never overlapped.
+% But in connecting a child to the already defined sibling box, this
+% feature doesn't work. So the children of the siblings may be
+% overlapped. In this case, you need to insert the interval box between
+% the siblings manually.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsectImpl
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsubsection{二世代box --- core}
+% \subsubsection{Generations box --- core}
 %
 % \iffalse
-% \parag{カスタマイズ}
+% \parag{Customization}
 %
-% \DescribeMacro{\ftgescfg}
+% \DescribeMacro{\ftgenscfg}
 % \NoDescription
 %    \begin{macrocode}
 % \newcommand{\ftgenscfg}[1]{%
@@ -243,13 +163,13 @@
 %    \end{macrocode}
 % \fi
 %
-% \parag{connection pair}
+% \parag{Connection pair}
 %
 % \DescribeMacro{\ft@getpair}
-% 引数からconnection-pairを取り出し、
-% 親box内の接続点を|\ft@cpoint|として、また子box名を|\ft@kids|として定義する。
-% 接続点に与えられたものが親box内でnestして配置された場合にも対応する。
-% しかしnestは一段までしか対応しない。
+% Extracts a connection-pair from the given list,
+% defines the connection-point in the parent box (the former of the pair)
+% as |\ft@cpoint|, and defines the child box name (the latter of the
+% pair) as |\ft@kids|.
 % \smallskip
 %
 %    \begin{macrocode}
@@ -268,11 +188,9 @@
 }
 %    \end{macrocode}
 %
-% \parag{上余白}
+% \parag{Top margin}
 %
 % \DescribeMacro{\def@calc@xtop}
-% 親boxに必要な上余白を算出し、指定されたglobalな名前で定義する。
-% \smallskip
 %
 %    \begin{macrocode}
 \newcommand{\ft@calc@xtop}[4]{% name parent cpoint kids
@@ -290,12 +208,9 @@
 }
 %    \end{macrocode}
 %
-% \parag{下余白}
+% \parag{Bottom margin}
 %
 % \DescribeMacro{\ft@calc@xbottom}
-% 親boxに必要な下余白を算出し、指定されたglobalな名前で定義する。
-% 同時に|\ft@depth|も定義する。
-% \smallskip
 %
 %    \begin{macrocode}
 \newcommand{\ft@calc@xbottom}[4]{% name parent cpoint kids
@@ -323,11 +238,9 @@
 }
 %    \end{macrocode}
 %
-% \parag{box size算出}
+% \parag{Calculate the box size}
 %
 % \DescribeMacro{\ft@gens@size}
-% box sizeを算出する。
-% \smallskip
 %
 %    \begin{macrocode}
 \newlength{\ft@xtop}
@@ -360,15 +273,9 @@
 }
 %    \end{macrocode}
 %
-% \parag{配置}
+% \parag{Layout}
 %
 % \DescribeMacro{\ft@gens@layout}
-% 親boxと子boxを配置する。
-% 配置した親boxの|nameCY|座標を\meta{box name}|nameCY|とする。
-% 配置した子boxの原点（左下、縦書きならば中央上）を\meta{box
-% name}\meta{\kern0pt 子box name}|Y|として定義する。
-% 本package自身では不要の座標だが、ユーザが必要とするかもしれないので。
-% \smallskip
 %
 %    \begin{macrocode}
 \newcommand{\ft@gens@layout}[3]{%
@@ -406,11 +313,9 @@
 %    \end{macrocode}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsubsection{二世代box --- interface}
+% \subsubsection{Generations box --- interface}
 %
 % \DescribeMacro{\ftgensdef}
-% boxのchild markは親boxのそれに一致する。
-% \smallskip
 %
 %    \begin{macrocode}
 \newcommand{\ftgensdef}[3]{%
@@ -431,13 +336,9 @@
 %    \end{macrocode}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsubsection{親子box --- interface}
+% \subsubsection{Parent-child box --- interface}
 %
 % \DescribeMacro{\ftpcdef}
-% 親子関係boxを定義する。
-% |\gensdef|の簡易版。
-% 親box、子boxそれぞれの\meta{box name}|nameCY|同士を結線する。
-% \smallskip
 %
 %    \begin{macrocode}
 \newcommand{\ftpcdef}[3]{% box-name parent-box-name child-box-name

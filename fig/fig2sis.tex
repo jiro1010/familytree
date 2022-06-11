@@ -1,0 +1,25 @@
+\sblngboxcfg{1ex}
+\indvdldef{youngSybil}{Lady Sybil}
+\indvdldef{youngEdith}{Lady Edith}
+\indvdldef{youngMary}{Lady Mary}
+\sblngdef{youngSis}{youngMary,youngEdith,youngSybil}
+\fbox{\usebox{\youngSis}}
+\hfill
+%
+\makeatletter
+\let\nameuse=\@nameuse
+\makeatother
+\newcommand{\boxsz}[1]{%
+  \texttt{\textbackslash#1} & \nameuse{#1}\\%
+}
+\newcommand{\tblA}{%
+  \begin{tabular}{l|l}%
+    \boxsz{youngSisnameCY}%
+    \boxsz{youngSisyoungMarynameCY}%
+    \boxsz{youngSisyoungEdithnameCY}%
+    \boxsz{youngSisyoungSybilnameCY}%
+  \end{tabular}%
+}
+\par
+\bigskip
+\hfill\tblA

@@ -1,12 +1,16 @@
 \indvdldef{Dudly}{Dudly}
 \indvdldef{Petunia}{Petunia}[\matrilineal]
 \pcdef{Dursleys}{Petunia}{Dudly}
-\fbox{\usebox{\Dursleys}}
 
 \indvdldef{Harry}{Harry}
 \indvdldef{Lily}{Lily}[\matrilineal]
 \pcdef{Potters}{Lily}{Harry}
-\fbox{\usebox{\Potters}}
 
 \sblngdef{sis}{Dursleys,Potters}
+%
+\begin{tabular}{l}
+\fbox{\usebox{\Dursleys}}\\
+\fbox{\usebox{\Potters}}\\
+\\
 \fbox{\usebox{\sis}}
+\end{tabular}

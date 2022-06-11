@@ -1,0 +1,23 @@
+\indvdldef{Robert}{Robert Crawley}[7th Earl of Grantham]
+\indvdldef[\ftblank]{Cora}{Cora Crawley}
+          [Countess of Grantham,\haschild]
+\mrrgdef{seven}{}{Robert}{Cora}
+\fbox{\usebox{\seven}}
+%
+\hfill\hskip0pt
+\makeatletter
+\let\nameuse=\@nameuse
+\makeatother
+\newcommand{\boxsz}[1]{%
+  \texttt{\textbackslash#1} & \nameuse{#1}\\%
+}
+\newcommand{\tblA}{%
+  \begin{tabular}{l|l}%
+    \boxsz{sevennameCY}%
+    \boxsz{sevenRobertnameCY}%
+    \boxsz{sevenCoramrrgCY}%
+  \end{tabular}%
+}
+\par
+\bigskip
+\hfill\tblA

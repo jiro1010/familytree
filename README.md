@@ -2,6 +2,23 @@
 # familytree package
 `jiro1010senju AT gmail DOT com`
 
+---
+```
+This package is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+any later version.
+
+This package is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this package.  If not, see <http://www.gnu.org/licenses/>.
+```
+---
+
 Some LaTeX macros (or commands) to draw a familytree.
 
 
@@ -9,20 +26,26 @@ Some LaTeX macros (or commands) to draw a familytree.
 
 `$ make Dir=/tmp`
 
-You will get these files under `${Dir}`.
-- `familytree.sty`
-- `familytree-ja.pdf`
+You will get these files under `/tmp`.
+```
+familytree.sty
+familytree-ja.pdf
+Crawley.pdf
+Asai.pdf
+Tokugawa.pdf
+```
 
-and some samples.
+`$ make InstallDir=/tmp/texmf-dist install`
 
-- `Asai.pdf`
-- `Crawley.pdf`
-- `Tokugawa.pdf`
+You will get these under `/tmp/texmf-dist`.
 
-
-`$ make InstallDir=${HOME}/lib/texinputs install`
-
-You will get `${InstallDir}/familytree.sty`.
+```
+tex/latex/familytree.sty
+source/latex/familytree/familytree-ja.pdf
+source/latex/familytree/Crawley.pdf
+source/latex/familytree/Asai.pdf
+source/latex/familytree/Tokugawa.pdf
+```
 
 
 # Usage
@@ -79,7 +102,7 @@ To define an individual,
 	{new box name}
 	[title]
 	{individual name}
-	[list of additonal info or attributes]
+	[list of additional info or attributes]
 	[maleline xlength]
 ```
 
@@ -96,7 +119,7 @@ To define an individual,
 
 ---
 
-To deinfe the siblings,
+To define the siblings,
 ```
 \sblngdef
 	{new box name}

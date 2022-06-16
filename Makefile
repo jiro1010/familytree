@@ -1,45 +1,50 @@
 
 Dir ?= /tmp
 export Dir
-InstallDir ?= ${HOME}/lib/texinputs/
+InstallDir ?= ${Dir}/texmf-dist
+export InstallDir
 
 include cmd.mk
 Gcid ?= $(shell git log -1 --pretty=format:"%h %aI" | tr -d -- '-:+')
-Lo = '\def\Gcid{'${Gcid}'}'
+Lo = '\def\Dir{'${Dir}'}\def\Gcid{'${Gcid}'}'
 
 ########################################
 
 Name = familytree
-Tgt = ${Dir}/${Name}.sty ${Dir}/${Name}-ja.pdf
+export Name
+Tgt = $(addprefix ${Dir}/${Name}., sty pdf)
 Dtx = $(addsuffix .dtx, ${Name} lib individual sibling gens marriage)
 
-Fig = fig1base fig1Ieyasu fig1Hidetada
-Fig += fig2base fig2Hidetada fig2ival fig2cfg
-Fig += fig3Hidetada fig3Ietsuna fig3Iemitsu
-figLily = $(addprefix fig3Lily, 1 2 3 4) $(addprefix fig4Lily, 1 2 3 4)
-Fig += ${figLily}
-Fig += fig4Hidetada fig4Ogou
+Fig = $(addprefix fig1Robert, 1 2)
+Fig += fig2baseEN fig2sis fig2ivalEN
+Fig += $(addprefix fig3Robert, 1 2) $(addprefix fig3Lily, 1 2 3 4)
+Fig += fig4Robert fig4HenryVIII $(addprefix fig4Lily, 1 2 3 4)
 
-figTY = $(addsuffix T, ${Fig}) $(addsuffix Y, ${Fig})
-figTYPdf = $(addprefix ${Dir}/, $(addsuffix .pdf, ${figTY}))
 figPdf = $(addprefix ${Dir}/, $(addsuffix .pdf, ${Fig}))
 figPrint = $(addprefix ${Dir}/, $(addsuffix print.tex, \
 		${Fig} \
-		$(addsuffix T, fig3Iemitsu) \
-		$(addsuffix Y, ${figLily}) \
 		))
 
 ########################################
 
 all: ${Tgt}
 	${MAKE} -C sample $@
+	${MAKE} -C ja $@
 
 clean:
-	${RM} *~ ${Tgt} ${figPdf} ${figTYPdf} ${figPrint}
+	${RM} *~ fig/*~ ${Tgt} ${figPdf} ${figTYPdf} ${figPrint}
 	${MAKE} -C sample $@
+	${MAKE} -C ja $@
 
 install: ${Dir}/${Name}.sty
-	install -m 444 -p ${Dir}/${Name}.sty ${InstallDir}
+	install -m 444 -pD ${Dir}/${Name}.sty \
+		${InstallDir}/tex/latex/
+	install -m 444 -pD ${Dir}/${Name}.pdf \
+		${InstallDir}/source/latex/${Name}/
+	${MAKE} -C sample $@
+	${MAKE} -C ja $@
+#	install -m 444 -pD *.dtx *.tex sample/ \
+#		${InstallDir}/source/latex/${Name}/
 
 ########################################
 
@@ -48,11 +53,12 @@ ${Dir}/${Name}.sty: ${Name}.ins ${Dtx}
 	$(call Latex, $<)
 	ls -l $@
 
-${Dir}/${Name}-ja.pdf: %-ja.pdf: %.sty ${figPdf} ${figPrint}
+${Dir}/${Name}.pdf: %.pdf: %.sty ${figPdf} ${figPrint}
 	$(call Latex, ${Name}.dtx)
 	$(call Latex, ${Name}.dtx)
 	cd ${Dir}; \
 	${DVIPDFMX} -o $@ ${Name}.dvi
+	ls -l $@
 
 ########################################
 
@@ -66,71 +72,56 @@ endef
 
 fig: ${figPdf}
 
-${figTYPdf}: Lo += '\def\figsrc{$(basename $<)}'
-${Dir}/%T.pdf: Lo += '\newif\ifmaketate\maketatetrue'
-${Dir}/%Y.pdf: Lo += '\newif\ifmaketate\maketatefalse'
-${Dir}/%T.pdf: %.tex figTY.tex ${Dir}/${Name}.sty
-	$(call MakeFigPdf,$(basename $@),figTY)
-	ebb $@
-${Dir}/%Y.pdf: %.tex figTY.tex ${Dir}/${Name}.sty
-	$(call MakeFigPdf,$(basename $@),figTY)
-	ebb $@
-
-${figPdf}: Lo = '\def\figsrc{$(notdir $(basename $@))}'
-${figPdf}: ${Dir}/%.pdf: ${Dir}/%T.pdf ${Dir}/%Y.pdf fig.tex
+${figPdf}: Lo = '\def\figsrc{fig/$(notdir $(basename $@))}'
+${figPdf}: ${Dir}/%.pdf: fig.tex fig/%.tex ${Dir}/${Name}.sty
 	$(call MakeFigPdf,$(basename $@),fig)
 
 ########################################
 
+define MakePrintTex # src
+	grep -v '^%[^%]' ${1} |\
+	tr '\n' '\r' |\
+	sed -e 's/^\r\r*//' -e 's/\r\r*$$/\r/' |\
+	tr '\r' '\n'
+endef
+
 untilComment = $(addprefix ${Dir}/, $(addsuffix print.tex, \
-	fig1Ieyasu fig2Hidetada fig3Hidetada fig4Hidetada))
-${untilComment}: ${Dir}/%print.tex: %.tex
-	sed -e '/^%$$/,$$d' $< | grep -v '^%' > $@
+	fig1Robert1 fig2baseEN fig2sis fig3Lily1 fig4Robert))
+${untilComment}: ${Dir}/%print.tex: fig/%.tex
+	sed -e '/^%$$/,$$d' -e 's/.hfill//' $< | grep -v '^%' > $@
 
 noIndvdl =  $(addprefix ${Dir}/, $(addsuffix print.tex, \
-	fig2ival fig2cfg))
-${noIndvdl}: ${Dir}/%print.tex: %.tex
-	fgrep -vw indvdldef $< > $@
+	fig2ivalEN fig3Robert2))
+${noIndvdl}: ${Dir}/%print.tex: fig/%.tex
+	fgrep -vw indvdldef $< |\
+	fgrep -vx '' |\
+	$(call MakePrintTex, -) > $@
 
-${Dir}/fig3Lily2print.tex: ${Dir}/%print.tex: %.tex
-	echo ' ... ' > $@
-	tail -8 $< | grep -v '^%' >> $@
+${Dir}/fig3Lily2print.tex: ${Dir}/%print.tex: fig/%.tex
+	{ \
+	echo ...; \
+	fgrep -vw indvdldef $< |\
+	sed -e '/tabular/,$$d' |\
+	$(call MakePrintTex, -); \
+	} > $@
 
-${Dir}/fig3Lily3print.tex: ${Dir}/%print.tex: %.tex
-	echo ' ... ' > $@
-	head -13 $< | tail -7 | grep -v '^%' >> $@
-	echo ' ... ' >> $@
+$(addprefix ${Dir}/, $(addsuffix print.tex, \
+	fig3Lily3 fig3Lily4 fig4Lily2)): ${Dir}/%print.tex: fig/%.tex
+	{ \
+	echo ...; \
+	sed -e '0,/newsavebox/d' -e '/tabular/,$$d' $< |\
+	$(call MakePrintTex, -); \
+	} > $@
 
-${Dir}/fig3Lily4print.tex: ${Dir}/%print.tex: %.tex
-	echo ' ... ' > $@
-	head -11 $< | tail -5 | grep -v '^%' >> $@
-	echo ' ... ' >> $@
+${Dir}/fig4Lily3print.tex: n = 4
+${Dir}/fig4Lily4print.tex: n = 2
+${Dir}/fig4Lily3print.tex ${Dir}/fig4Lily4print.tex: ${Dir}/%print.tex: fig/%.tex
+	{ \
+	echo ...; \
+	tail -${n} $<; \
+	} > $@
 
-${Dir}/fig4Lily2print.tex: ${Dir}/%print.tex: %.tex
-	echo ' ... ' > $@
-	egrep -w '(boxA|wd)' $< >> $@
-	echo ' ... ' >> $@
-	grep -w 'ivali*' $< >> $@
-	echo ' ... ' >> $@
-
-${Dir}/fig4Lily3print.tex: ${Dir}/%print.tex: %.tex
-	echo ' ... ' > $@
-	fgrep -w 'dimexpr' $< >> $@
-	echo ' ... ' >> $@
-	fgrep -w 'sblngdef' $< >> $@
-	echo ' ... ' >> $@
-
-${Dir}/fig4Lily4print.tex: ${Dir}/%print.tex: %.tex
-	echo ' ... ' > $@
-	fgrep -w 'sblngdef' $< >> $@
-	echo ' ... ' >> $@
-
-${Dir}/%Tprint.tex ${Dir}/%Yprint.tex: ${Dir}/%print.tex
-	cp -p $< $@
-${Dir}/%print.tex: %.tex
-	grep -v '^%[^%]' $< |\
-	tr '\n' '\r' |\
-	sed -e 's/\r\r*$$/\r/' |\
-	tr '\r' '\n' > $@
+${Dir}/%print.tex: fig/%.tex
+	$(call MakePrintTex, $<) > $@
 
 -include priv.mk

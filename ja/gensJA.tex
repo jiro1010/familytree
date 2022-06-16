@@ -1,0 +1,447 @@
+%
+% \section{親子関係、二世代 (\texttt{gens.dtx})}
+%
+% \DescribeMacro{\pcdef}
+% 親子関係（parent-child relationship）を定義する。
+% \smallskip
+%
+% \cmd{\pcdef
+%   \marg{new box name}
+%   \marg{parent box name}
+%   \marg{child box name}
+% }
+% \medskip
+%
+% 指定された\meta{parent box}と\meta{child box}を結線した新たなboxを
+% \meta{new box name}で定義する。
+%
+% \meta{parent box}に指定できるのは、子へつながる線が一本だけのboxに限ら
+% れる。例えば、|\maleline|（相当）の属性を与え
+% |\indvdldef|で作成したboxである。
+% また\meta{child box}に指定できるのは親へつながる線を持つboxに限られる。
+% 例えば、child markに|\biological|を指定した|\indvdldef|で作成したboxである。
+%
+% |\pcdef|は次に挙げる|\gensdef|の簡易版である。
+% \bigskip
+%
+% \DescribeMacro{\gensdef}
+% 二世代の関係（generations）を定義する。
+% \smallskip
+%
+% \cmd{\gensdef
+%   \marg{new box name}
+%   \marg{parent box name}
+%   \marg{list of connection-pair}
+% }
+% \medskip
+%
+% \cmd{connection-pair :=\\
+% \hspace{4em}\marg{individual box name in the parent box}\\
+% \hspace{4em}\marg{child box name}
+% }
+% \bigskip
+%
+% \meta{connection-pair}とは、以下のものを組にしたものである。
+% \begin{spacing}{.5}
+% \begin{enumerate}
+% \item
+%   \marg{parant box}内の人物box名
+% \item
+%   \marg{child box}名
+% \end{enumerate}
+% \end{spacing}
+%
+% この二つのboxの\meta{box name}|nameCY|同士を結線する。
+% \smallskip
+%
+% \meta{child box}には、前述の|\pcdef|同様に、親へつながる線を（一本）持
+% つboxしか指定できないが、\meta{parent box}には子へつながる線を複数
+% 持つものでも指定できる。どの線とどの\meta{child box}をつなぐかを指定す
+% るのが\meta{connection-pair}である。
+%
+% 作成したboxのchild markは親boxのそれに一致する。
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \clearpage
+% \subsection{例}
+%
+% \begin{enumerate}
+% \item
+% \srcfig[scale=.9]{fig3Hidetada}
+%
+% \clearpage
+% \item
+% \srcfig[scale=.75]{fig3Ietsuna}
+%
+% \clearpage
+% \item
+% 上例二つをつなぐ手順を紹介しておく。
+% \begin{enumerate}
+% \item
+% 子から順に先祖を辿りながら定義する。すなわち、上例2の後に1を定義する。
+%
+% \item
+% 上例2に変更は不要である。
+%
+% \item
+% 上例1の
+%
+% \begin{lstlisting}[gobble=2,xleftmargin=1em]
+% \pcdef{秀忠親子}{秀忠}{秀忠の子}
+% \end{lstlisting}
+%
+% を
+%
+% \begin{lstlisting}[gobble=2,xleftmargin=1em]
+% \gensdef{家光家綱}{秀忠の子}{%
+%   {家光}{家綱綱吉}%
+% }
+% \pcdef{秀忠家光}{秀忠}{家光家綱}
+% \end{lstlisting}
+%
+% へ変更する。
+%
+% すなわち
+% \textgt{\texttt{\textbackslash\kern0pt 秀忠の子}}box
+% 内の人物box
+% \textgt{\texttt{\textbackslash\kern0pt 家光}}
+% と、上例2で定義済みの
+% \textgt{\texttt{\textbackslash\kern0pt 家綱綱吉}}box
+% をつなぎ、これを
+% \textgt{\texttt{\textbackslash\kern0pt 家光家綱}}box
+% とする。
+%
+% \textgt{\texttt{\textbackslash\kern0pt 秀忠}}box
+% と親子関係を結ぶのはこの
+% \textgt{\texttt{\textbackslash\kern0pt 家光家綱}}box
+% である。
+%
+% \item
+% 新たに定義した
+% \textgt{\texttt{\textbackslash\kern0pt 秀忠家光}}
+% を描画する。
+% \end{enumerate}
+%
+% 紙面の都合上、横書きの結果のみ提示する。
+% \end{enumerate}
+% \smallskip
+%
+% \noindent\includegraphics[scale=.75]{fig3IemitsuY.pdf}
+% \medskip
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{複数boxの定義、結線順序}
+% \label{sec:Lily1}
+%
+% 兄弟姉妹boxとは複数の人物boxを同列に並べるものととらえるならば、
+% それと直交する方向に並べるのが親子boxだ。
+% 同列に並んだ兄弟姉妹それぞれが子を持つならば、親子関係が複数になるので
+% 単純に親子関係ボックスとは呼びづらく、二世代boxと呼ぶ方がふさわしい。
+%
+% このような図の作成方法は二通り考えられる。親子関係を複数定義し、親同士を
+% 兄弟姉妹boxでつなぐ方法と、逆に親世代の兄弟姉妹boxを先に定義してから、それぞ
+% れに子をつなぐ方法だ。
+%
+% 親子関係を定義する|\pcdef|と、世代関係を定義する|\gensdef|が既に利用可能
+% と仮定し、図の見やすさを考える。まず例を図示する。
+%
+% \begin{enumerate}
+% \needspace{2\baselineskip}
+% \item
+% 二組の親子関係を定義後、親世代の姉妹関係を定義する。
+%
+% \srcfig{fig3Lily1Y}
+%
+% \needspace{3\baselineskip}
+% \item
+% 姉妹関係を定義後、それぞれの親子関係を定義する。
+%
+% \srcfig{fig3Lily2Y}
+% \end{enumerate}
+%
+% 見て分かる通り、1の方法では子をつなぐ線の長さが異なり、更に子世代の位
+% 置も揃わなくなるため、見にくい図となる。
+% これは子へつながる線はもっとも長いものに揃えるという|\sblngdef|の
+% 機能が働かなかったためだ。|\sblngdef|の引数に渡された時点で既に
+% 親子関係が定義されている状態であり、線の先には人物boxがつながれている。
+% この状態で|\sblngdef|が強引に線を延ばすのはよろしくない。
+%
+% 一方、2の方法では|\sblngdef|の引数は|\indvdldef|されただけで他にはつながれていない
+% boxである。このため、上から長い線を描き足しても害は無い。既定義boxを改変
+% しないまま、兄弟姉妹boxに閉じた範囲で同じ高さに線を上書きしている。
+%
+% 1の方法を採った場合でも線の長さを揃える方法はある。
+% |\indvdldef|が持つ線長の増減機能を利用し、
+% 上図のLilyが持つ|\femaleline|（|\matrilineal|）の長さをPetuniaのそれと同
+% じにすれば良い。
+% PetuniaとLilyの名前の長さの差を求め、それを|\indvdldef|にオプションとし
+% て追加する。
+% 描画結果は上例2と同じである。
+% \smallskip
+%
+% \srcfig{fig3Lily3Y}
+% \medskip
+%
+% |\nameboxcfg|には子をつなぐ線の長さを変更する機能があるので、これを使っ
+% ても同様の結果を得ることができる。しかし、|\indvdldef|する度に
+% |\nameboxcfg|するのは得策ではないだろう。|\nameboxcfg|はもっと広範囲に
+% 適用する値を変更し、個別設定の回数を削減することを目的としており、
+% |\indvdldef|の度に変更することは想定していない（できなくはないが）。
+% 個別に使用する値は|\indvdldef|のオプション引数を使用した方が簡便だろう。
+% \bigskip
+%
+% もう一つの方法としてLilyの名前の長さをPetuniaのそれに揃える方法もある。
+% この方法ではLilyの名前と線の間が空き、線の長さが揃う。
+% \smallskip
+%
+% \srcfig{fig3Lily4Y}
+% \medskip
+%
+% Lilyの親子boxをPetunia親子boxとは違う場面で使用すると、名前の後ろが不
+% 自然に空きおかしく見えることもあるかもしれない。その場合は、空き具合
+% を変化させたLily boxを複数定義し使い分けることになるだろう。
+% \bigskip
+%
+% boxの定義順序、言い換えれば配置\jslash 結線順序には注意が必要だ。
+% 本パッケージでのbox定義とは与えられた複数のboxを並べ線でつなぐものだが、
+% その際に与えられたboxの大きさを考慮する。例えば兄弟姉妹boxを定義する際、
+% 既に子孫とつないだboxを与え、そのboxの幅（または高さ）が増加していれば、
+% 兄弟姉妹の間隔を拡げる。すなわちinterval boxによる間隔挿入が必要になるのは末端の関係定義だ
+% けになる。しかし、兄弟姉妹boxを定義した後で子とつなげる場合は、この
+% 間隔調整機能が発揮されない。隣合う子boxの幅（または高さ）が広ければ、
+% 重なってしまうだろう。この場合は手動でinterval boxを挿入せざるを得ない。
+%
+% 接続ポイントは\meta{box name}\meta{brabra}|nameCY|などの名前で定義された座標で
+% ある。前章までで説明したように|\sblngdef|は兄弟姉妹それぞれの名前の中
+% 心を表すY座標を定義するが、nestした場合にnest内部までは定義しない。す
+% なわち親子boxに配置された人物boxへ線をつなげるのは（ほぼ）自動的にでき
+% るが、親子box内の兄弟姉妹boxに配置された人物boxへ線をつなげるには、ユー
+% ザが自分で座標を算出しなければならない。不可能ではないが、手間はかかる。
+% この手間を回避するため、世代は下から順に定義\jslash 結線していくのが良いと考える。
+% \iffalse
+% \bigskip
+%
+% 最終的に、
+% ユーザがどのような図を欲するにより、どの順序でboxを定義し、つなげるか、
+% また調整をどう加えるかを決定するのが良い。
+% \fi
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsectImpl
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsubsection{二世代box --- core}
+%
+% \iffalse
+% \parag{カスタマイズ}
+%
+% \DescribeMacro{\ftgescfg}
+% \NoDescription
+%    \begin{macrocode}
+% \newcommand{\ftgenscfg}[1]{%
+% }
+%    \end{macrocode}
+% \fi
+%
+% \parag{connection pair}
+%
+% \DescribeMacro{\ft@getpair}
+% 引数からconnection-pairを取り出し、
+% 親box内の接続点を|\ft@cpoint|として、また子box名を|\ft@kids|として定義する。
+% 接続点に与えられたものが親box内でnestして配置された場合にも対応する。
+% しかしnestは一段までしか対応しない。
+% \smallskip
+%
+%    \begin{macrocode}
+\def\ft@getpair#1#2#3{% connection-pair parent-box-name
+  \ft@dbgmsg{args #1, #2, #3}%
+  \@ifundefined{#3#1nameCY}{%
+    \@ifundefined{#3#1mrrgCY}{%
+      \xdef\ft@cpoint{#1nameCY}%
+    }{%
+      \xdef\ft@cpoint{#3#1mrrgCY}%
+    }%
+  }{%
+    \xdef\ft@cpoint{#3#1nameCY}%
+  }%
+  \xdef\ft@kids{#2}%
+}
+%    \end{macrocode}
+%
+% \parag{上余白}
+%
+% \DescribeMacro{\def@calc@xtop}
+% 親boxに必要な上余白を算出し、指定されたglobalな名前で定義する。
+% \smallskip
+%
+%    \begin{macrocode}
+\newcommand{\ft@calc@xtop}[4]{% name parent cpoint kids
+  % top half of kids
+  \ft@len=\dimexpr\ht\@nameuse{#4} - \@nameuse{#4nameCY}pt\relax\relax%
+  % top half of parent cpoint
+  \@tempskipa=\dimexpr\ht\@nameuse{#2} - \@nameuse{#3}pt\relax\relax%
+  %
+  \ifdim\ft@len<\@tempskipa%
+    \ft@len=0pt%
+  \else%
+    \advance\ft@len -\@tempskipa%
+  \fi%
+  \global#1=\ft@len%
+}
+%    \end{macrocode}
+%
+% \parag{下余白}
+%
+% \DescribeMacro{\ft@calc@xbottom}
+% 親boxに必要な下余白を算出し、指定されたglobalな名前で定義する。
+% 同時に|\ft@depth|も定義する。
+% \smallskip
+%
+%    \begin{macrocode}
+\newcommand{\ft@calc@xbottom}[4]{% name parent cpoint kids
+  % bottom half of kids
+  \ft@len=\@nameuse{#4nameCY}pt\relax%
+  % bottom half of parent cpoint
+  \@tempskipa=\@nameuse{#3}pt\relax%
+  %
+  \ifdim\ft@len=\@tempskipa%
+    \ft@len=0pt%
+    \global\setlength{\ft@depth}{\dp\@nameuse{#2}}%
+    \ifdim\ft@depth<\dp\@nameuse{#4}%
+      \global\setlength{\ft@depth}{\dp\@nameuse{#4}}%
+    \fi%
+  \else%
+    \ifdim\ft@len<\@tempskipa%
+      \ft@len=0pt%
+      \global\setlength{\ft@depth}{\dp\@nameuse{#2}}%
+    \else%
+      \advance\ft@len -\@tempskipa%
+      \global\setlength{\ft@depth}{\dp\@nameuse{#4}}%
+    \fi%
+  \fi%
+  \global#1=\ft@len%
+}
+%    \end{macrocode}
+%
+% \parag{box size算出}
+%
+% \DescribeMacro{\ft@gens@size}
+% box sizeを算出する。
+% \smallskip
+%
+%    \begin{macrocode}
+\newlength{\ft@xtop}
+\newlength{\ft@xbottom}
+\newcommand{\ft@gens@size}[2]{% parent-box connect-pair-list
+  \@tempswatrue%
+  \ft@width=0pt%
+  \@for\@temptokena:=#2\do{%
+    \expandafter\ft@getpair\@temptokena{#1}%
+    \ft@dbgmsg{\ft@cpoint and \ft@kids}%
+    \if@tempswa%
+      \ft@calc@xtop{\ft@xtop}{#1}{\ft@cpoint}{\ft@kids}%
+      \@tempswafalse%
+    \fi%
+    \setlength{\ft@len}{\wd\@nameuse{\ft@kids}}%
+    \ifdim\ft@width<\ft@len%
+      \global\ft@width=\ft@len%
+    \fi%
+  }%
+  \ft@calc@xbottom{\ft@xbottom}{#1}{\ft@cpoint}{\ft@kids}%
+  \ft@dbgmsg{xtop \the\ft@xtop, xbottom \the\ft@xbottom}%
+  %
+  \ft@x=\dimexpr\wd\@nameuse{#1}% - \ft@cmarkbox@length\relax%
+  \ft@dbgmsg{x \the\ft@x}%
+  \advance\ft@width \ft@x%
+  \ft@dbgmsg{w \the\ft@width}%
+  \ft@height=\dimexpr\ht\@nameuse{#1} + \ft@xtop + \ft@xbottom\relax%
+  \ft@dbgmsg{kids H \the\ht\@nameuse{\ft@kids}}%
+  \ft@dbgmsg{H \strip@pt\ft@height, D \strip@pt\ft@depth}%
+}
+%    \end{macrocode}
+%
+% \parag{配置}
+%
+% \DescribeMacro{\ft@gens@layout}
+% 親boxと子boxを配置する。
+% 配置した親boxの|nameCY|座標を\meta{box name}|nameCY|とする。
+% 配置した子boxの原点（左下、縦書きならば中央上）を\meta{box
+% name}\meta{\kern0pt 子box name}|Y|として定義する。
+% 本package自身では不要の座標だが、ユーザが必要とするかもしれないので。
+% \smallskip
+%
+%    \begin{macrocode}
+\newcommand{\ft@gens@layout}[3]{%
+  % box-name parent-box-name {{parent-name} {child-name}, ...}
+  \ft@newnamebox{#1}{%
+    \edef\@w{\strip@pt\ft@width}%
+    \edef\@h{\strip@pt\ft@height}%
+    \begin{picture}(\@w,\@h)%
+      \ft@dbgframe{\@w,\@h}%
+      %
+      \ft@y=\ft@xbottom%
+      \ft@dbgplot{0,\strip@pt\ft@y}%
+      \put(0,\strip@pt\ft@y){\usebox{\@nameuse{#2}}}%
+      \advance\ft@y \@nameuse{#2nameCY}pt%
+      \ft@namexdefstrip{#1nameCY}{\ft@y}%
+      %\ft@namexdefstrip{#1#2nameCY}{\ft@y}%
+      %
+      \@for\@temptokena:=#3\do{%%
+        \expandafter\ft@getpair\@temptokena{#2}%
+        \ft@dbgmsg{\ft@cpoint and \ft@kids}%
+        %
+        \ft@y=\dimexpr\ft@xbottom + \@nameuse{\ft@cpoint}pt\relax%
+        \ft@dbgmsg{parent cpoint \the\ft@y}%
+        \ft@dbgplot{\strip@pt\ft@x,\strip@pt\ft@y}%
+        %
+        \advance\ft@y  -\@nameuse{\ft@kids nameCY}pt%
+        \ft@dbgmsg{final child y \the\ft@y}%
+        \put(\strip@pt\ft@x,\strip@pt\ft@y){%
+          \usebox{\@nameuse{\ft@kids}}}%
+        \ft@namexdefstrip{#1\ft@kids Y}{\ft@y}%
+      }%
+    \end{picture}%
+  }%
+}
+%    \end{macrocode}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsubsection{二世代box --- interface}
+%
+% \DescribeMacro{\ftgensdef}
+% boxのchild markは親boxのそれに一致する。
+% \smallskip
+%
+%    \begin{macrocode}
+\newcommand{\ftgensdef}[3]{%
+  % box-name parent-box-name {{parent-name} {child-name}, ...}
+  %
+  % calculate the size of the new box
+  \ft@gens@size{#2}{#3}%
+  %
+  % draw them all
+  \ft@gens@layout{#1}{#2}{#3}%
+  %
+  \@ifundefined{#2hascmark}{}{%
+    \ft@namexdef{#1hascmark}{\@nameuse{#2hascmark}}%
+  }%
+  \ft@nameboxsz{#1}{\ft@height}{\ft@depth}%
+}
+\ft@alias{gensdef}
+%    \end{macrocode}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsubsection{親子box --- interface}
+%
+% \DescribeMacro{\ftpcdef}
+% 親子関係boxを定義する。
+% |\gensdef|の簡易版。
+% 親box、子boxそれぞれの\meta{box name}|nameCY|同士を結線する。
+% \smallskip
+%
+%    \begin{macrocode}
+\newcommand{\ftpcdef}[3]{% box-name parent-box-name child-box-name
+  \ftgensdef{#1}{#2}{{#2}{#3}}%
+}
+\ft@alias{pcdef}
+%    \end{macrocode}

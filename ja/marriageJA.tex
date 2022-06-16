@@ -1,0 +1,405 @@
+%
+% \section{婚姻関係 (\texttt{marriage.dtx})}
+%
+% \DescribeMacro{\mrrgdef}
+% \cmd{\mrrgdef
+%   \marg{new box name}
+%   \marg{spouse list A}
+%   \marg{oneself}
+%   \marg{spouse list B}
+%   \oarg{childline xlength}
+% }
+% \medskip
+%
+% 指定された\meta{new box name}でboxを定義する。
+% 再婚や側室などにも対応するべく、配偶者はlist形式で指定する。
+% |\indvdldef|で定義したboxの名前をカンマ区切りのlistとして与える。
+% \meta{spouse list A}は本人（\meta{oneself}）の上側（縦書きならば右）に、
+% \meta{spouse list B}は本人（\meta{oneself}）の下側（縦書きならば左）に、
+% それぞれ配置する。
+% いづれも\CS ではない点に注意
+% （冒頭に\textbackslash を含まない）。
+% \smallskip
+%
+% 全員を同列に並べ、正式な婚姻関係は二重実線で、正式でなければ
+% （|\private|属性）
+% 二重点線で結ぶ。
+% 二重線の位置は\meta{oneself}の人物名の中点とする。
+% \smallskip
+%
+% 子をもうけた夫婦
+% （配偶者が|\haschild|属性を持つ）
+% 間の二重線からは子をつなぐ線を描く。
+% \smallskip
+%
+% |\sblngdef|同様に間隔を空ける場合はinterval boxを挿入できる。
+% \medskip
+%
+% |\indvdldef|同様に、後で使用する座標（単位は|pt|）を表す\CS も定義する。
+% 座標の原点はそれぞれ、
+% 横書きの場合はbox左下、
+% 縦書きの場合はbox左上である。
+%
+% \begin{longtable}{lp{.5\textwidth}}
+% \meta{box name}|nameCY| &
+% 婚姻関係box内での本人（\meta{oneself}）の人物名の高さの中央
+% （縦書きならば幅の中央）
+% \\
+%
+% \meta{box name}\meta{\kern0pt 人物box name}|nameCY| &
+% 婚姻関係box内でのcmarkを持つ人物名の高さの中央
+% \\
+%
+% \meta{box name}\meta{\kern0pt 人物box name}|mrrgCY| &
+% 婚姻関係box内での|\haschild|属性を持つ人物名と婚姻線との中点
+% \end{longtable}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{カスタマイズ}
+%
+% 配置を調整する機能もある。
+% 変更しないものには空を指定すれば良い。
+% 大したことはしていないので必要に応じ参照\jslash 使用する程度で良い。
+% 引数等詳細は実装を参照のこと。
+% \medskip
+%
+% \DescribeMacro{\mrrgboxcfg}
+% \cmd{\mrrgboxcfg
+%   \marg{space between two lines}
+%   \marg{space between name and the line}
+%   \marg{line length}
+% }
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \clearpage
+% \subsection{例}
+%
+% \begin{enumerate}
+% \item
+% \srcfig[scale=.85]{fig4Hidetada}
+% \clearpage
+%
+% \item
+% \srcfig[scale=.95]{fig4Ogou}
+% \end{enumerate}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{同世代内の配置と結線}
+%
+% 一つの\FamilyTree になんでもかんでも詰め込むのは無理がある。
+%
+% 例えば夫婦がともに再婚していた場合、全員を同列に並べては見にく
+% くなるばかりだ。先に挙げた二つの図は秀忠夫婦を表すと言えば同じになって
+% しまうが、観点を秀忠にするかお江にするかで随分違う図になる。この二つの
+% 図を合体させるのはまず無理と
+% 思う。人物を減らすか、夫婦それぞれを主人公にした図の二つに分けるしかない。
+% それでも自身の先祖や子孫が配偶者側の先祖\jslash 子孫と関係を
+% 持つ場合があれば、更に分割せざるを得ないだろう。
+%
+% 兄弟姉妹関係と婚姻関係を同時に表現する場合も同様だ。
+% 同世代内で線が入り乱れると図が見にくくなってしまう。
+% \refnm{sec:Lily1}の例を再利用し考えてみる。
+%
+% Petunia -- Lily姉妹がそれぞれ結婚した場合、姉妹関係と婚姻関係を同時に、
+% かつ綺麗に表現できるだろうか。
+%
+% まず二組の夫婦を定義し、後に姉妹関係を定義する。
+% \bigskip
+%
+% \srcfig{fig4Lily1Y}
+% \bigskip
+%
+% 夫婦単位で見れば問題はないかもしれないが、姉妹関係を結ぶと見づらい図となってし
+% まう。原因になりうる点は次の三つだろう。
+% \begin{spacing}{.5}
+% \begin{enumerate}
+% \item 婚姻関係を表す二重線の位置が揃っていない。
+% \item 子をつなぐ線の長さも異なっており、この状態で子をつなぐと見づらさに
+%   拍車がかかる。
+% \item JamesがPetuniaとLilyの間に割り込んでおり、姉妹関係を見づらくして
+% いる。
+% \end{enumerate}
+% \end{spacing}
+%
+% 一点目の二重線の位置を揃えれば、二点目の線長不揃いも自動的に解消される。
+% これには\refnm{sec:Lily1}でも紹介した、Lily boxの幅をPetunia boxのそれ
+% に揃える方法が使える。
+% 三点目のJamesの位置だが、まずは間隔を拡げてみる。
+% \bigskip
+%
+% \srcfig{fig4Lily2Y}
+% \medskip
+%
+% 間隔を拡げても姉妹線がJamesを跨いでいることは変わらない。見づらさは改
+% 善されただろうか？
+% 更に改善するにはJamesとLilyの順序を入れ替えるしかない。
+% \bigskip
+%
+% \srcfig{fig4Lily3Y}
+% \medskip
+%
+% 入れ替えた上で間隔を拡げるのも一つの手だ。
+% \bigskip
+%
+% \srcfig{fig4Lily4Y}
+% \medskip
+%
+% これがbestだろうか？
+% 見やすさ\jslash 見にくさは主観や好みが強く出る所だ。
+% 個人的には夫婦の順序が変わっている点に抵抗を覚える。だが、姉妹に観点を
+% 置いた\FamilyTree ならば、この形も有りだと認めざるを得ない。系図内の他
+% の部分とのバランスもあるので、最終的には総合的に判断するものだろう。
+% 婚姻関係を含めない\Matrilineal 図も積極的に検討したい。
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsectImpl
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \parag{カスタマイズ}
+%
+% \DescribeMacro{\ftmrrgboxcfg}
+% \DescribeMacro{\mrrgboxcfg}
+% 婚姻boxを生成する際に使用する
+% 二重線の間隔、
+% 二重線と人物名との距離、
+% 二重線の長さ
+% をカスタマイズできる。
+%
+% 変更しないものには空を指定すれば良い。
+% \smallskip
+%
+%    \begin{macrocode}
+\newlength{\ft@mrrgline@sep}
+\setlength{\ft@mrrgline@sep}{4pt}
+\newlength{\ft@mrrgline@sp}
+\setlength{\ft@mrrgline@sp}{.25\ft@ch}
+\newlength{\ft@mrrgline@length}
+\setlength{\ft@mrrgline@length}{1.5\ft@ch}
+\newcommand{\ftmrrgboxcfg}[3]{% sep space length
+  \ifx#1\empty\else%
+    \setlength{\ft@mrrgline@sep}{#1}%
+  \fi%
+  \ifx#2\empty\else%
+    \setlength{\ft@mrrgline@sp}{#2}%
+  \fi%
+  \ifx#3\empty\else%
+    \setlength{\ft@mrrgline@length}{#3}%
+  \fi%
+}
+\ft@alias{mrrgboxcfg}
+%    \end{macrocode}
+%
+% \parag{解析}
+%
+% \DescribeMacro{\ft@mrrg@parse}
+% 引数を解析し、婚姻boxのsizeを算出する。
+%
+% 子につながる線を描く場合、一番長いものに
+% |\ft@namebox@maleline@length|を加えた長さに揃える。
+% \smallskip
+%
+%    \begin{macrocode}
+\newcommand{\ft@mrrg@parse}[1]{% spouse-list
+  \global\ft@height=0pt%
+  \global\ft@width=0pt%
+  \global\ft@box@has@malelinefalse%
+  \@for\@temptokena:=#1\do{%
+    \ifx\@temptokena\empty\else%
+      \xdef\ft@spouse{\@temptokena}%
+      \@ifundefined{\@temptokena ival}{%
+        \@ifundefined{\ft@spouse haschild}{}{%
+          \global\ft@box@has@malelinetrue%
+        }%
+        \setlength{\ft@len}{\wd\@nameuse{\ft@spouse}}%
+        \ifdim\ft@width<\ft@len%
+          \global\ft@width=\ft@len%
+        \fi%
+        \ft@dbgmsg{\ft@spouse, W \the\wd\@nameuse{\ft@spouse},%
+          H \the\ht\@nameuse{\ft@spouse},%
+          D \the\dp\@nameuse{\ft@spouse}}%
+        \global\advance\ft@height \dimexpr\ft@mrrgline@length%
+          + 2\ft@mrrgline@sp\relax%
+        \ft@dbgmsg{\ft@spouse, H \the\ft@height}%
+      }{}%
+      \global\advance\ft@height \dimexpr\ht\@nameuse{\ft@spouse}%
+        + \dp\@nameuse{\ft@spouse}\relax%
+      \ft@dbgmsg{\ft@spouse, h H \the\ft@height}%
+    \fi%
+  }%
+  %
+  \ifft@box@has@maleline%
+    \global\advance\ft@width \ft@namebox@maleline@length%
+  \fi%
+  %
+  \global\ft@depth=\dp\@nameuse{\ft@spouse}%
+  \global\advance\ft@height \dimexpr -2\ft@mrrgline@sp%
+    - \ft@mrrgline@length - \ft@depth\relax%
+  \ft@dbgmsg{final H \the\ft@height, D \the\ft@depth}%
+}
+%    \end{macrocode}
+%
+% \parag{婚姻関係線の描画}
+%
+% \DescribeMacro{\ft@mrrg@line}
+% 本人と配偶者を二重線でつなぐ。
+%
+% 配偶者が|\haschild|属性を持っていれば、二重線の中点から子へつなぐため
+% の線も描き、その座標を\meta{box name}\meta{\kern0pt 人物box name}|mrrgCY|に定
+% 義する。
+% \smallskip
+%
+%    \begin{macrocode}
+\newlength{\ft@mrrg@chlen}
+\newcommand{\ft@mrrg@line}[5]{% box-name spouse cx sp length
+  \ft@x=#3%
+  \global\advance\ft@height -#4%
+  \@tempskipb=\dimexpr\ft@mrrgline@sep/2\relax%
+  \edef\@y{\strip@pt\ft@height}%
+  \@ifundefined{#2private}{%
+    \ft@len=#5\relax%
+    \edef\@l{\strip@pt\ft@len}%
+    \put(\strip@pt\dimexpr\ft@x - \@tempskipb, \@y){\line(0,-1){\@l}}%
+    \put(\strip@pt\dimexpr\ft@x + \@tempskipb, \@y){\line(0,-1){\@l}}%
+  }{%
+    % this divisor should match the delta_y for multiput
+    \ft@len=#5\relax%
+    \ft@len=\dimexpr\ft@len/2 + .5pt\relax%
+    \@tempcnta=\dimexpr\ft@len/65536\relax%
+    \multiput(\strip@pt\dimexpr\ft@x - \@tempskipb, \@y)%
+      (0,-2){\@tempcnta}{\line(0,-1){.5}}%
+    \multiput(\strip@pt\dimexpr\ft@x + \@tempskipb, \@y)%
+      (0,-2){\@tempcnta}{\line(0,-1){.5}}%
+  }%
+  \@ifundefined{#2haschild}{}{%
+    \ft@len=#5\relax%
+    \ft@y=\dimexpr\ft@height - \ft@len/2\relax%
+    \put(\strip@pt\dimexpr\ft@x + \@tempskipb,\strip@pt\ft@y)%
+        {\line(1,0){\strip@pt\ft@mrrg@chlen}}%
+    \ft@dbgplot{\strip@pt\ft@x,\strip@pt\ft@y}%
+    \ft@namexdefstrip{#1#2mrrgCY}{\ft@y}%
+  }%
+  \ft@len=#5\relax%
+  \@tempskipa=#4\relax%
+  \global\advance\ft@height \dimexpr -\ft@len - \@tempskipa\relax%
+  \ft@dbgmsg{line #2 H \the\ft@height}%
+}
+%    \end{macrocode}
+%
+% \parag{人物名の配置}
+%
+% \DescribeMacro{\ft@mrrg@name}
+% child mark属性を持つ人物boxの場合は、\meta{box name}\meta{\kern0pt 人物box
+%   name}|nameCY|を定義する。
+% \smallskip
+%
+%    \begin{macrocode}
+\newcommand{\ft@mrrg@name}[2]{% box-name individual-name
+  \global\advance\ft@height -\ht\@nameuse{#2}%
+  \put(0,\strip@pt\ft@height){\usebox{\@nameuse{#2}}}%
+  \ft@dbgframe[0,\strip@pt\ft@height]%
+              {\strip@pt\wd\@nameuse{#2},\strip@pt\ht\@nameuse{#2}}%
+  %
+  \@ifundefined{#2hasmaleline}{}{%
+    \ft@x=\@nameuse{#2nameX}pt%
+    \ft@y=\dimexpr\ft@height + \@nameuse{#2nameCY}pt\relax%
+    \ft@len=\dimexpr\ft@width - \@nameuse{#2nameX}pt%
+      %- \ft@namebox@maleline@sp%
+      \relax%
+    \put(\strip@pt\ft@x,\strip@pt\ft@y){\line(1,0){\strip@pt\ft@len}}%
+    \ft@namexdefstrip{#1#2nameCY}{\ft@y}%
+  }%
+  %
+  \@ifundefined{#2hascmark}{}{%
+    \ft@len=\dimexpr\ft@height + \@nameuse{#2nameCY}pt\relax%
+    \ft@namexdefstrip{#1#2nameCY}{\ft@len}%
+    \ft@dbgplot{0,\strip@pt\ft@len}%
+  }%
+  \global\advance\ft@height -\dp\@nameuse{#2}%
+  \ft@dbgmsg{name #2 H \the\ft@height}%
+}
+%    \end{macrocode}
+%
+% \subsubsection{人物boxの配置と結線 --- core}
+%
+% \DescribeMacro{\ft@mrrg@spouse}
+% 配偶者list内の要素それぞれを配置し、婚姻関係線を描く。
+% \smallskip
+%
+%    \begin{macrocode}
+\newlength{\ft@mrrg@ival}
+\newcommand{\ft@mrrg@spouse}[2]{% box-name list
+  \global\ft@mrrg@ival=0pt%
+  \@for\@temptokena:=#2\do{%
+    \@ifundefined{\@temptokena ival}{%
+      \@tempskipa=\dimexpr\ft@mrrgline@length + \ft@mrrg@ival\relax%
+      \if@tempswa%
+        \ft@mrrg@name{#1}{\@temptokena}%
+        \ft@mrrg@line{#1}{\@temptokena}{\ft@xx}{\ft@mrrgline@sp}%
+                     {\@tempskipa}%
+      \else%
+        \ft@mrrg@line{#1}{\@temptokena}{\ft@xx}{\ft@mrrgline@sp}%
+                     {\@tempskipa}%
+        \ft@mrrg@name{#1}{\@temptokena}%
+      \fi%
+      \global\ft@mrrg@ival=0pt%
+    }{%
+      \global\advance\ft@mrrg@ival%
+        \dimexpr\ht\@nameuse{\@temptokena}%
+        + \dp\@nameuse{\@temptokena}\relax%
+    }%
+  }%
+}
+%    \end{macrocode}
+%
+% \subsubsection{婚姻box --- interface}
+%
+% \DescribeMacro{\ftmrrgdef}
+% \DescribeMacro{\mrrgdef}
+% 配置したbox内での本人（\meta{oneself}）の|nameCY|を、\meta{box name}|nameCY|と
+% して定義する。同様に本人の|hascmark|をそのまま\meta{box
+% name}|hascmark|とする。
+% \smallskip
+%
+%    \begin{macrocode}
+\NewDocumentCommand{\ftmrrgdef}{mmmmO{0pt}}{%
+  % box-name spouse-listA oneself spouse-listB [xline]
+  \ft@xx=\@nameuse{#3nameCX}pt\relax%
+  \ft@mrrg@parse{#2,#3,#4}%
+  %
+  \advance\ft@width #5%
+  \global\ft@mrrg@chlen=\dimexpr\ft@width - \ft@xx%
+    - \ft@mrrgline@sep/2\relax%
+  %
+  \ft@theight=\ft@height%
+  \ft@newnamebox{#1}{%
+    \edef\@w{\strip@pt\ft@width}%
+    \edef\@h{\strip@pt\ft@height}%
+    \begin{picture}(\@w,\@h)%
+      \ft@dbgframe{\@w,\@h}%
+      %
+      \ifx#2\@nil\else%
+        \@tempswatrue%
+        \ft@mrrg@spouse{#1}{#2}%
+      \fi%
+      %
+      \ft@mrrg@name{#1}{#3}%
+      \@ifundefined{#1#3nameCY}{}{%
+        \ft@len=\@nameuse{#1#3nameCY}pt\relax%
+        \ft@dbgplot{1,\strip@pt\ft@len}%
+        \ft@namexdefstrip{#1nameCY}{\ft@len}%
+      }%
+      \@ifundefined{#3hascmark}{}{%
+        \ft@namexdef{#1hascmark}{\@nameuse{#3hascmark}}%
+      }%
+      %
+      \ifx#4\empty\else%
+        \@tempswafalse%
+        \ft@mrrg@spouse{#1}{#4}%
+      \fi%
+    \end{picture}%
+  }%
+  \ft@nameboxsz{#1}{\ft@theight}{\ft@depth}%
+}
+\ft@alias{mrrgdef}
+%    \end{macrocode}

@@ -25,7 +25,6 @@ figTYPdf = $(addprefix ${Dir}/, $(addsuffix .pdf, ${figTY}))
 figPdf = $(addprefix ${Dir}/, $(addsuffix .pdf, ${Fig}))
 figPrint = $(addprefix ${Dir}/, $(addsuffix print.tex, \
 		${Fig} \
-		${figLily} \
 		))
 figLilyPdf = $(addprefix ${Dir}/, $(addsuffix .pdf, ${figLily}))
 figLilyPrint = $(addprefix ${Dir}/, $(addsuffix print.tex, ${figLily}))
@@ -36,7 +35,7 @@ all: ${Tgt}
 	${MAKE} -C sample $@
 
 clean:
-	${RM} *~ fig/*~ ${Tgt} ${figPdf} ${figLilyPdf} ${figTYPdf} ${figPrint}
+	${RM} *~ fig/*~ ${Tgt} ${figPdf} ${figTYPdf} ${figPrint}
 	${MAKE} -C sample $@
 
 install:
@@ -50,7 +49,7 @@ install:
 # ${Dir}/${Name}.sty:
 
 ${Dir}/${Name}-ja.pdf: ${Tex} ${Dir}/${Name}.sty \
-	${figPdf} ${figLilyPdf} ${figPrint}
+	${figPdf} ${figPrint} ${figLilyPdf} ${figLilyPdf}
 	$(call Latex, ${Name}JA.tex)
 	$(call Latex, ${Name}JA.tex)
 #	$(call Latex, ${Name}JA.tex)

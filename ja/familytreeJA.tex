@@ -117,11 +117,11 @@ along with this package.  If not, see <http://www.gnu.org/licenses/>.
   {%
     \noautoxspacing%
     %\inhibitxspcode`¡Ë=2% is not helpful
-    \lstinputlisting{/tmp/#2print}%
+    \lstinputlisting{\Dir/#2print}%
     \nopagebreak[4]%
   }%
   \nopagebreak[4]%
-  \hfil\includegraphics[#1]{/tmp/#2.pdf}%
+  \hfil\includegraphics[#1]{\Dir/#2.pdf}%
 }
 \newcommand{\jslash}{~\slash{} \allowbreak}
 \newcommand{\IhadtoSplit}{%

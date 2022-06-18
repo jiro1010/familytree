@@ -33,16 +33,16 @@ all: ${Tgt}
 
 clean:
 	${RM} *~ fig/*~ ${Tgt} ${figPdf} ${figTYPdf} ${figPrint}
-	${MAKE} -C sample $@
-	${MAKE} -C ja $@
+	${MAKE} -C sample --no-print-directory $@
+	${MAKE} -C ja --no-print-directory $@
 
 install: ${Dir}/${Name}.sty
-	install -m 444 -pD ${Dir}/${Name}.sty \
-		${InstallDir}/tex/latex/
+#	install -m 444 -pD ${Dir}/${Name}.sty \
+#		${InstallDir}/tex/latex/${Name}.sty
 	install -m 444 -pD ${Dir}/${Name}.pdf \
-		${InstallDir}/source/latex/${Name}/
-	${MAKE} -C sample $@
-	${MAKE} -C ja $@
+		${InstallDir}/source/latex/${Name}/${Name}.pdf
+	${MAKE} -C sample --no-print-directory $@
+	${MAKE} -C ja --no-print-directory $@
 #	install -m 444 -pD *.dtx *.tex sample/ \
 #		${InstallDir}/source/latex/${Name}/
 

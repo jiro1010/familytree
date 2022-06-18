@@ -11,9 +11,10 @@ clean:
 	${RM} *~ ${Tgt}
 
 install:
-	install -m 444 -pD ${Tgt} ${InstallDir}/source/latex/${Name}/
+	install -m 444 -pD ${Tgt} \
+		${InstallDir}/source/latex/${Name}/$(notdir ${Tgt})
 
-${Tgt}: $(wildcard *.tex) ${Dir}/familytree.sty
-	$(call Latex, a.tex)
-	${DVIPDFMX} -o ${Dir}/a.pdf ${Dir}/a.dvi
+${Tgt}: ${Dir}/%.pdf: %.tex ${Dir}/familytree.sty
+	$(call Latex, $<)
+	cd ${Dir}; ${DVIPDFMX} -o a.pdf $(basename $<).dvi
 	${PDFCROP} ${Dir}/a.pdf $@

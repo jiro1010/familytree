@@ -6,7 +6,7 @@ InstallDir ?= ${Dir}/texmf-dist
 LATEX ?= platex -kanji=euc
 include ../cmd.mk
 Gcid ?= $(shell git log -1 --pretty=format:"%h %aI" | tr -d -- '-:+')
-Lo = '\def\Gcid{'${Gcid}'}'
+Lo = '\def\Dir{'${Dir}'}\def\Gcid{'${Gcid}'}'
 
 ########################################
 
@@ -40,7 +40,7 @@ clean:
 
 install:
 	install -m 444 -pD ${Dir}/${Name}-ja.pdf \
-		${InstallDir}/source/latex/${Name}/
+		${InstallDir}/source/latex/${Name}/${Name}-ja.pdf
 	${MAKE} -C sample $@
 
 ########################################
@@ -49,7 +49,7 @@ install:
 # ${Dir}/${Name}.sty:
 
 ${Dir}/${Name}-ja.pdf: ${Tex} ${Dir}/${Name}.sty \
-	${figPdf} ${figPrint} ${figLilyPdf} ${figLilyPdf}
+	${figPdf} ${figPrint} ${figLilyPdf} ${figLilyPrint}
 	$(call Latex, ${Name}JA.tex)
 	$(call Latex, ${Name}JA.tex)
 #	$(call Latex, ${Name}JA.tex)
@@ -67,7 +67,7 @@ define MakeFigPdf # tgtname texname
 	mv ${2}.dvi ${1}.dvi
 endef
 
-fig: ${figPdf} ${figLilyPdf}
+fig: ${figPdf}
 
 ${figTYPdf}: Lo += '\def\figsrc{$(basename $<)}'
 ${Dir}/%T.pdf: Lo += '\newif\ifmaketate\maketatetrue'

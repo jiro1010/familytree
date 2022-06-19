@@ -1,15 +1,16 @@
 
 Dir ?= /tmp
-Tgt = ${Dir}/Crawley.pdf
+Tgt = ${Dir}/Asai.pdf
 
-include ../cmd.mk
+LATEX ?= platex -kanji=euc
+include ../../cmd.mk
 
 all: ${Tgt}
 
 clean:
 	${RM} *~ ${Tgt}
 
-install: all
+install:
 	install -m 444 -pD ${Tgt} \
 		${InstallDir}/source/latex/${Name}/$(notdir ${Tgt})
 

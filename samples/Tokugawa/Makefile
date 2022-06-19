@@ -3,7 +3,7 @@ Dir ?= /tmp
 Tgt = ${Dir}/Tokugawa.pdf
 
 LATEX ?= platex -kanji=euc
-include ../../../cmd.mk
+include ../../cmd.mk
 
 all: ${Tgt}
 

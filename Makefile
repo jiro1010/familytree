@@ -28,9 +28,9 @@ clean:
 	${MAKE} -C samples --no-print-directory $@
 	${MAKE} -C doc-ja --no-print-directory $@
 
-install: ${Dir}/${Name}.sty
-#	install -m 444 -pD ${Dir}/${Name}.sty \
-#		${InstallDir}/tex/latex/${Name}.sty
+install: all
+	install -m 444 -pD ${Dir}/${Name}.sty \
+		${InstallDir}/tex/latex/${Name}.sty
 	install -m 444 -pD ${Dir}/${Name}.pdf \
 		${InstallDir}/source/latex/${Name}/${Name}.pdf
 	${MAKE} -C samples --no-print-directory $@

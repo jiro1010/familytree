@@ -19,7 +19,7 @@ along with this package.  If not, see <http://www.gnu.org/licenses/>.
 ```
 ---
 
-Some LaTeX macros (or commands) to draw a familytree.
+Some LaTeX macros (or commands) to draw a family tree.
 
 
 # Install
@@ -29,6 +29,7 @@ Some LaTeX macros (or commands) to draw a familytree.
 You will get these files under `/tmp`.
 ```
 familytree.sty
+familytree.pdf
 familytree-ja.pdf
 Crawley.pdf
 Asai.pdf
@@ -41,6 +42,7 @@ You will get these under `/tmp/texmf-dist`.
 
 ```
 tex/latex/familytree.sty
+source/latex/familytree/familytree.pdf
 source/latex/familytree/familytree-ja.pdf
 source/latex/familytree/Crawley.pdf
 source/latex/familytree/Asai.pdf
@@ -206,5 +208,5 @@ Configuration
 ```
 
 
-For more details, refer to `*.dtx` or `familytree-ja.pdf`,
-and `sample/` sub-dir.
+For more details, refer to `*.dtx`, `familytree.pdf` or `familytree-ja.pdf`,
+and `samples/` sub-dir.

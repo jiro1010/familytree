@@ -5,8 +5,7 @@ InstallDir ?= ${Dir}/texmf-dist
 export InstallDir
 
 include cmd.mk
-Gcid ?= $(shell git log -1 --pretty=format:"%h %aI" | tr -d -- '-:+')
-Lo = '\def\Dir{'${Dir}'}\def\Gcid{'${Gcid}'}'
+Lo = '\def\Dir{'${Dir}'}'
 
 ########################################
 
